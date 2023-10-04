@@ -31,8 +31,7 @@ const sketch = function (p) {
 
   p.setup = function () {
     lastTimeIncremented = Date.now()
-    p.createCanvas(420, 420)
-    //p.noLoop()
+    p.createCanvas(p.windowWidth, p.windowHeight)
     p.noStroke()
     p.textFont(font)
   }
@@ -41,7 +40,7 @@ const sketch = function (p) {
     p.background(0)
     const color = p.color('white')
     drawWord(p.width / 2, p.height / 2, color, 100)
-    incrementIndexIfTime(100)
+    incrementIndexIfTime(300)
   }
 }
 
