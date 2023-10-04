@@ -17,15 +17,20 @@ const sketch = function (p) {
     }
   }
 
-  const drawWord = (x, y, color, fontsize) => {
+  const fittedText = (text, fontsize, posX, posY, fitX, fitY) => {
+    p.textSize(p.min((fontsize * fitX) / p.textWidth(text), fitY))
+    p.text(text, posX, posY)
+  }
+
+  const drawWord = (text, x, y, color, fontsize) => {
     p.fill(color)
     p.textSize(fontsize)
     p.textAlign(p.CENTER, p.CENTER)
-    p.text(wordList[wordIndex], x, y)
+    fittedText(text, fontsize, x, y, p.width - 30, p.height)
   }
 
   p.preload = function () {
-    font = p.loadFont('/font/visbycf-heavy.otf')
+    font = p.loadFont('/font/D-DIN-Bold.otf')
     wordList = p.loadJSON('/data/wordlist.json')
   }
 
@@ -39,8 +44,12 @@ const sketch = function (p) {
   p.draw = function () {
     p.background(0)
     const color = p.color('white')
-    drawWord(p.width / 2, p.height / 2, color, 100)
+    drawWord(wordList[wordIndex], p.width / 2, p.height / 2, color, 100)
     incrementIndexIfTime(300)
+  }
+
+  p.windowResized = function () {
+    p.resizeCanvas(p.windowWidth, p.windowHeight)
   }
 }
 
