@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { textFlickerMain } from "./coreTextFlicker.js";
+import { textFlickerMain } from "./flickerCore/coreTextFlicker.js";
 
 export default{
   extend: textFlickerMain,
