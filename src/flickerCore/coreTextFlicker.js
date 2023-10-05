@@ -5,6 +5,7 @@ const sketch = function (p) {
   let wordList = []
   let wordIndex = 0
   let lastTimeIncremented = 0
+  let audioClick
 
   const incrementIndexIfTime = (millisecondStep) => {
     if (lastTimeIncremented + millisecondStep < Date.now()) {
@@ -14,7 +15,10 @@ const sketch = function (p) {
       if (wordIndex >= Object.keys(wordList).length) {
         wordIndex = 0
       }
+
+      return true
     }
+    return false
   }
 
   const fittedText = (text, fontsize, posX, posY, fitX, fitY) => {
@@ -32,6 +36,7 @@ const sketch = function (p) {
   p.preload = function () {
     font = p.loadFont('/font/D-DIN-Bold.otf')
     wordList = p.loadJSON('/data/wordlist.json')
+    audioClick = new Audio('/audio/click.mp3')
   }
 
   p.setup = function () {
@@ -44,8 +49,10 @@ const sketch = function (p) {
   p.draw = function () {
     p.background(0)
     const color = p.color('white')
+    if (incrementIndexIfTime(300)) {
+      audioClick.play()
+    }
     drawWord(wordList[wordIndex], p.width / 2, p.height / 2, color, 100)
-    incrementIndexIfTime(300)
   }
 
   p.windowResized = function () {
