@@ -1,6 +1,9 @@
 import p5 from 'p5'
+import { useUiStore } from '@/stores/ui'
 
 const sketch = function (p) {
+  const store = useUiStore()
+
   let font
   let wordList = []
   let wordIndex = 0
@@ -49,7 +52,7 @@ const sketch = function (p) {
   p.draw = function () {
     p.background(0)
     const color = p.color('white')
-    if (incrementIndexIfTime(300)) {
+    if (incrementIndexIfTime(store.stepMilliseconds)) {
       audioClick.play()
     }
     drawWord(wordList[wordIndex], p.width / 2, p.height / 2, color, 100)
