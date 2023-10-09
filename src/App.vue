@@ -15,12 +15,11 @@ export default{
 
 <template>
   <div ref=“canvasOutlet”></div>
-  <div>aaa</div>
-  <TheUI msg="aaa" />
+  <TheUI />
 </template>
 
 <style lang="scss">
 #app{
-  position: absolute;
+  //position: absolute;
 }
 </style>
