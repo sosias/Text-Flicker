@@ -32,9 +32,17 @@ onBeforeUnmount(() => {
     <section>
       <button class="button" v-on:click="isVisible = false">hide</button><span>shortcut 'h' toggle panel</span>
     </section>
+    <br/>
+    Step velocity
     <section>
       <input v-model.number="store.stepMilliseconds" type="range" min="1" max="1000" class="slider" />
       <input v-model="store.stepMilliseconds" type="number" /><span>ms</span>
+    </section>
+    <br/>
+    Add Random Offset
+    <section>
+      <input v-model.number="store.randomOffset" type="range" min="0" max="1000" class="slider" />
+      <input v-model="store.randomOffset" type="number" /><span>ms</span>
     </section>
   </div>
 </template>

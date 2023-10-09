@@ -52,10 +52,14 @@ const sketch = function (p) {
   p.draw = function () {
     p.background(0)
     const color = p.color('white')
-    if (incrementIndexIfTime(store.stepMilliseconds)) {
+    let stepMillisecondsMod =
+      wordList[wordIndex].staying == ''
+        ? store.stepMilliseconds
+        : store.stepMilliseconds * wordList[wordIndex].staying
+    if (incrementIndexIfTime(stepMillisecondsMod + p.random(0, store.randomOffset))) {
       audioClick.play()
     }
-    drawWord(wordList[wordIndex], p.width / 2, p.height / 2, color, 100)
+    drawWord(wordList[wordIndex].text, p.width / 2, p.height / 2, color, 100)
   }
 
   p.windowResized = function () {
