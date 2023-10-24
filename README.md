@@ -38,7 +38,7 @@ npm run lint
 
 ```
 git checkout --orphan gh-pages
-npm run build
+npm run build_ghpages
 git --work-tree dist add --all
 git --work-tree dist commit -m 'Deploy'
 git push origin HEAD:gh-pages --force
