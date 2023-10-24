@@ -58,7 +58,7 @@ const fetchWords = async() => {
     </section>
     <section class="wordlist">
       <div v-for="(wordItem, index) in store.wordList" :key="index">
-        <UIWordItem on="true" :text=wordItem.text :staying=wordItem.staying />
+        <UIWordItem :on="index==store.wordIndex" :text=wordItem.text :staying=parseInt(wordItem.staying) />
       </div>
     </section>
   </div>
@@ -86,5 +86,7 @@ section{
   align-items: center;
   gap: 5px;
   flex-direction: column;
+  overflow: auto;
+  max-height: 100%;
 }
 </style>
