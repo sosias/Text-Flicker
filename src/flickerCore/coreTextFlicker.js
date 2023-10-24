@@ -5,7 +5,7 @@ const sketch = function (p) {
   const store = useUiStore()
 
   let font
-  let wordList = []
+  //store.wordList = []
   let wordIndex = 0
   let lastTimeIncremented = 0
   let audioClick
@@ -15,7 +15,7 @@ const sketch = function (p) {
       lastTimeIncremented = Date.now()
       wordIndex++
 
-      if (wordIndex >= Object.keys(wordList).length) {
+      if (wordIndex >= Object.keys(store.wordList).length) {
         wordIndex = 0
       }
 
@@ -38,7 +38,7 @@ const sketch = function (p) {
 
   p.preload = function () {
     font = p.loadFont('/font/D-DIN-Bold.otf')
-    wordList = p.loadJSON('/data/wordlist.json')
+    //store.wordList = p.loadJSON('/data/wordlist.json')
     audioClick = new Audio('/audio/click.mp3')
   }
 
@@ -53,13 +53,13 @@ const sketch = function (p) {
     p.background(0)
     const color = p.color('white')
     let stepMillisecondsMod =
-      wordList[wordIndex].staying == ''
+      store.wordList[wordIndex].staying == ''
         ? store.stepMilliseconds
-        : store.stepMilliseconds * wordList[wordIndex].staying
+        : store.stepMilliseconds * store.wordList[wordIndex].staying
     if (incrementIndexIfTime(stepMillisecondsMod + p.random(0, store.randomOffset))) {
       audioClick.play()
     }
-    drawWord(wordList[wordIndex].text, p.width / 2, p.height / 2, color, 100)
+    drawWord(store.wordList[wordIndex].text, p.width / 2, p.height / 2, color, 100)
   }
 
   p.windowResized = function () {

@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useUiStore } from '@/stores/ui'
+import UIWordItem from './UIWordItem.vue'
 
 const store = useUiStore()
 const isVisible = ref(true)
@@ -17,13 +18,24 @@ const userReleaseKey = ({ code }) => {
     }
 };
 
+
 onMounted(() => {
+  fetchWords();
     document.addEventListener('keyup', userReleaseKey, true)
 })
 
 onBeforeUnmount(() => {
     document.removeEventListener('keyup', userReleaseKey, true)
 })
+
+const fetchWords = async() => {
+  try {
+    const response = await fetch('/data/wordlist.json');
+    store.wordList  = await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 </script>
 
@@ -44,6 +56,11 @@ onBeforeUnmount(() => {
       <input v-model.number="store.randomOffset" type="range" min="0" max="1000" class="slider" />
       <input v-model="store.randomOffset" type="number" /><span>ms</span>
     </section>
+    <section class="wordlist">
+      <div v-for="(wordItem, index) in store.wordList" :key="index">
+        <UIWordItem on="true" :text=wordItem.text :staying=wordItem.staying />
+      </div>
+    </section>
   </div>
 </template>
 
@@ -61,5 +78,13 @@ section{
   display: flex;
   align-items: center;
   gap: 5px;
+}
+
+.wordlist{
+  padding-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-direction: column;
 }
 </style>
