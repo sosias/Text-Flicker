@@ -37,12 +37,12 @@ const sketch = function (p) {
   }
 
   p.preload = function () {
-    font = p.loadFont('/font/D-DIN-Bold.otf')
+    font = p.loadFont(import.meta.env.BASE_URL + 'font/D-DIN-Bold.otf')
     //store.wordList = p.loadJSON('/data/wordlist.json')
-    audioClick.push(new Audio('/audio/click.mp3'))
-    audioClick.push(new Audio('/audio/click.mp3'))
-    audioClick.push(new Audio('/audio/click.mp3'))
-    audioClick.push(new Audio('/audio/click.mp3'))
+    audioClick.push(new Audio(import.meta.env.BASE_URL + 'audio/click.mp3'))
+    audioClick.push(new Audio(import.meta.env.BASE_URL + 'audio/click.mp3'))
+    audioClick.push(new Audio(import.meta.env.BASE_URL + 'audio/click.mp3'))
+    audioClick.push(new Audio(import.meta.env.BASE_URL + 'audio/click.mp3'))
   }
 
   p.setup = function () {

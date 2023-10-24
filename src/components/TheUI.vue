@@ -30,7 +30,7 @@ onBeforeUnmount(() => {
 
 const fetchWords = async() => {
   try {
-    const response = await fetch(import.meta.env.BASE_URL+'/data/wordlist.json');
+    const response = await fetch(import.meta.env.BASE_URL + 'data/wordlist.json');
     store.wordList  = await response.json();
   } catch (error) {
     console.error(error);
