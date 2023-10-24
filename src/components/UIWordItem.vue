@@ -1,23 +1,22 @@
 <script setup>
+import { useUiStore } from '@/stores/ui'
+const store = useUiStore()
+
 defineProps({
-  text: {
-    type: String,
-    required: true
-  },
-  staying: {
-    type: Number,
-    required: false
-  },
   on: {
     type: Boolean,
     required: false,
     default: false
+  },
+  index: {
+    type: Number,
+    required: true
   }
 })
 </script>
 <template>
   <div class="row">
-    <span class="circle" :class="{ 'c-on': on }"></span><input type="text" :value=text /><input class="staying" type="number" :value=staying />
+    <span class="circle" :class="{ 'c-on': on }"></span><input type="text" v-model=store.wordList[index].text /><input class="staying" type="text" v-model=store.wordList[index].staying />
   </div>
 </template>
 
