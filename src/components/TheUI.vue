@@ -18,14 +18,27 @@ const userReleaseKey = ({ code }) => {
     }
 };
 
+const changeScene = (sceneIndex) => {
+  store.wordIndex = 0
+  store.scene = sceneIndex
+}
+
+const uuidv4 = () => {
+ return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+ );
+}
+
+let sceneName = []
 
 onMounted(() => {
+  initWebsocketConnection();
   fetchWords();
-    document.addEventListener('keyup', userReleaseKey, true)
+  document.addEventListener('keyup', userReleaseKey, true)
 })
 
 onBeforeUnmount(() => {
-    document.removeEventListener('keyup', userReleaseKey, true)
+  document.removeEventListener('keyup', userReleaseKey, true)
 })
 
 const fetchWords = async() => {
@@ -37,12 +50,65 @@ const fetchWords = async() => {
   }
 }
 
+
+const initWebsocketConnection = async() => {
+
+  const obsSocket = new WebSocket('ws://localhost:4455');
+
+  obsSocket.onopen = () => {
+    console.log('Connected to OBS WebSocket');
+  };
+
+  obsSocket.onmessage = (msg)=>{
+    console.log(msg)
+    console.log(JSON.parse(msg.data))
+    var data = JSON.parse(msg.data);
+    if(data.op == 0){ // if Hello is received identify client
+      var rpcVersion = data.d.rpcVersion
+      obsSocket.send(JSON.stringify({
+        "op": 1, // identify
+        "d": {
+          "rpcVersion": rpcVersion
+        }
+      }));
+    } else if(data.op == 2){
+      obsSocket.send(JSON.stringify({
+        "op": 6, // request
+        "d": {
+          requestType: "GetSceneList",
+          requestId: uuidv4(),
+        }
+      }));
+    } else if (data.op == 7 && data.d.requestType == "GetSceneList"){
+      sceneName = data.d.responseData.scenes.map((item)=>{return item.sceneName})
+    } 
+    else if(data.op == 5 && data.d.eventType == "CurrentProgramSceneChanged"){
+      changeScene(sceneName.indexOf(data.d.eventData.sceneName))
+    }
+  }
+
+  obsSocket.onerror = (event) => {
+      console.error("WebSocket Error:", event);
+  };
+
+  obsSocket.onclose = () => {
+    console.log('Disconnected from OBS WebSocket');
+  };
+}
+
 </script>
 
 <template>
   <div class="container" v-if="isVisible">
     <section>
       <button class="button" v-on:click="isVisible = false">hide</button><span>shortcut 'h' toggle panel</span>
+    </section>
+    <br/>
+    Scene
+    <section>
+      <div v-for="(scene, index) in store.wordList" :key="index">
+        <button :disabled="index==store.scene" v-on:click="changeScene(index)" :index=index>{{index}}</button>
+      </div>
     </section>
     <br/>
     Step velocity
@@ -57,7 +123,7 @@ const fetchWords = async() => {
       <input v-model="store.randomOffset" type="number" /><span>ms</span>
     </section>
     <section class="wordlist">
-      <div v-for="(wordItem, index) in store.wordList" :key="index">
+      <div v-for="(wordItem, index) in store.wordList && store.wordList[store.scene]" :key="index">
         <UIWordItem :on="index==store.wordIndex" :index=index />
       </div>
     </section>

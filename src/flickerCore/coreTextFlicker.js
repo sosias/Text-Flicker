@@ -6,6 +6,7 @@ const sketch = function (p) {
 
   let font
   //store.wordList = []
+  store.scene = 0
   store.wordIndex = 0
   let lastTimeIncremented = 0
   let audioClick = []
@@ -15,7 +16,7 @@ const sketch = function (p) {
       lastTimeIncremented = Date.now()
       store.wordIndex++
 
-      if (store.wordIndex >= Object.keys(store.wordList).length) {
+      if (store.wordIndex >= Object.keys(store.wordList[store.scene]).length) {
         store.wordIndex = 0
       }
 
@@ -56,9 +57,9 @@ const sketch = function (p) {
     p.background(0)
     const color = p.color('white')
     let stepMillisecondsMod =
-      store.wordList[store.wordIndex].staying == ''
+      store.wordList[store.scene][store.wordIndex].staying == ''
         ? store.stepMilliseconds
-        : store.stepMilliseconds * store.wordList[store.wordIndex].staying
+        : store.stepMilliseconds * store.wordList[store.scene][store.wordIndex].staying
     if (incrementIndexIfTime(stepMillisecondsMod + p.random(0, store.randomOffset))) {
       for (let i = 0; i < audioClick.length; i++) {
         if (audioClick[i].paused) {
@@ -67,7 +68,7 @@ const sketch = function (p) {
         }
       }
     }
-    drawWord(store.wordList[store.wordIndex].text, p.width / 2, p.height / 2, color, 100)
+    drawWord(store.wordList[store.scene][store.wordIndex].text, p.width / 2, p.height / 2, color, 100)
   }
 
   p.windowResized = function () {

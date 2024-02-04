@@ -16,7 +16,7 @@ defineProps({
 </script>
 <template>
   <div class="row">
-    <span class="circle" :class="{ 'c-on': on }"></span><input type="text" v-model=store.wordList[index].text /><input class="staying" type="text" v-model=store.wordList[index].staying />
+    <span class="circle" :class="{ 'c-on': on }"></span><input type="text" v-model=store.wordList[store.scene][index].text /><input class="staying" type="text" v-model=store.wordList[store.scene][index].staying />
   </div>
 </template>
 
