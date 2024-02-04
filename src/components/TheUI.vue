@@ -23,6 +23,12 @@ const changeScene = (sceneIndex) => {
   store.scene = sceneIndex
 }
 
+const selectDevice = (deviceIndex) => {
+  store.device = deviceIndex
+  store.wordIndex = 0
+  store.wordList = wholeData[deviceIndex]
+}
+
 const uuidv4 = () => {
  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
     (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
@@ -30,6 +36,8 @@ const uuidv4 = () => {
 }
 
 let sceneName = []
+let wholeData;
+store.device = 0
 
 onMounted(() => {
   initWebsocketConnection();
@@ -44,16 +52,19 @@ onBeforeUnmount(() => {
 const fetchWords = async() => {
   try {
     const response = await fetch(import.meta.env.BASE_URL + 'data/wordlist.json');
-    store.wordList  = await response.json();
+    wholeData = await response.json();
+    store.wordList  = wholeData[0]
   } catch (error) {
     console.error(error);
   }
 }
 
+let websocketAddress = "localhost:4455"
+let obsSocket
 
 const initWebsocketConnection = async() => {
-
-  const obsSocket = new WebSocket('ws://localhost:4455');
+  obsSocket && obsSocket.close()
+  obsSocket = new WebSocket('ws://' + websocketAddress);
 
   obsSocket.onopen = () => {
     console.log('Connected to OBS WebSocket');
@@ -104,6 +115,17 @@ const initWebsocketConnection = async() => {
       <button class="button" v-on:click="isVisible = false">hide</button><span>shortcut 'h' toggle panel</span>
     </section>
     <br/>
+    Websocket address
+    <section>
+      <input v-model="websocketAddress" type="text" v-on:change="initWebsocketConnection()"/>
+    </section>
+    <br/>
+    Device
+    <section>
+      <div v-for="(device, index) in wholeData" :key="index">
+        <button :disabled="index==store.device" v-on:click="selectDevice(index)" :index=index>{{index}}</button>
+      </div>
+    </section>
     Scene
     <section>
       <div v-for="(scene, index) in store.wordList" :key="index">
