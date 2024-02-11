@@ -7,11 +7,6 @@ const store = useUiStore()
 
 import { onMounted, onBeforeUnmount } from 'vue';
 
-const changeScene = (sceneIndex) => {
-  store.wordIndex = 0
-  store.scene = sceneIndex
-}
-
 const selectDevice = (deviceIndex) => {
   store.device = deviceIndex
   store.wordIndex = 0
@@ -56,13 +51,7 @@ const fetchWords = async() => {
         <button :disabled="index==store.device" v-on:click="selectDevice(index)" :index=index>{{index}}</button>
       </div>
     </section>
-    Scene
-    <section>
-      <div v-for="(scene, index) in store.wordList" :key="index">
-        <button :disabled="index==store.scene" v-on:click="changeScene(index)" :index=index>{{index}}</button>
-      </div>
-    </section>
-    <br/>
+    <br />
     Options
     <section>
       Fitting text <input v-model="store.fittedText" type="checkbox" name="scales" checked />
@@ -93,6 +82,7 @@ const fetchWords = async() => {
   background-color: #fff;
   border-radius: 5px;
   right: 0;
+  top: 0;
   padding: 10px;
   /* margin: 10px; */
 }
