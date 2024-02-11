@@ -1,23 +1,11 @@
 <script setup>
-import { ref } from 'vue'
 import { useUiStore } from '@/stores/ui'
 import UIWordItem from './UIWordItem.vue'
 //import ObsWebSocket from './ObsWebSocket.vue'
 
 const store = useUiStore()
-const isVisible = ref(true)
 
 import { onMounted, onBeforeUnmount } from 'vue';
-
-const toggleVisibility = () => {
-    isVisible.value = !isVisible.value
-};
-
-const userReleaseKey = ({ code }) => {
-    if (code === 'KeyH') {
-        toggleVisibility()
-    }
-};
 
 const changeScene = (sceneIndex) => {
   store.wordIndex = 0
@@ -33,23 +21,15 @@ const selectDevice = (deviceIndex) => {
 let wholeData;
 store.device = 0
 store.fittedText = false
-const isPlaying = ref(false)
 
 onMounted(() => {
   //initWebsocketConnection();
   fetchWords();
-  document.addEventListener('keyup', userReleaseKey, true)
 })
 
 onBeforeUnmount(() => {
-  document.removeEventListener('keyup', userReleaseKey, true)
-})
 
-const setLoopStatus = (start) => {
-  isPlaying.value = start
-  console.log(store.setLoopStatus)
-  store.setLoopStatus(start)
-}
+})
 
 const fetchWords = async() => {
   try {
@@ -64,20 +44,12 @@ const fetchWords = async() => {
 </script>
 
 <template>
-  <div class="container" v-if="isVisible">
-    <section>
-      <button class="button" v-on:click="isVisible = false">hide</button><span>shortcut 'h' toggle panel</span>
-    </section>
-    <br/>
+  <div class="container_settings" v-if="store.isPanelUIVisible">
     <!-- Websocket address
     <section>
       <ObsWebSocket />
     </section>
     <br/> -->
-    <section>
-      <button class="button_ctrl" :disabled="isPlaying === true" v-on:click="setLoopStatus(true)">⏵</button>
-      <button class="button_ctrl" :disabled="isPlaying === false" v-on:click="setLoopStatus(false)">⏹</button>
-    </section>
     Device
     <section>
       <div v-for="(device, index) in wholeData" :key="index">
@@ -116,13 +88,13 @@ const fetchWords = async() => {
 </template>
 
 <style scoped>
-.container{
+.container_settings{
   position: absolute;
   background-color: #fff;
   border-radius: 5px;
   right: 0;
   padding: 10px;
-  margin: 10px;
+  /* margin: 10px; */
 }
 
 section{
