@@ -1,6 +1,7 @@
 @import 'normalize-scss';
 @include normalize();
 @import './base.scss';
+@import './input.scss';
 
 // #app {
 //   max-width: 1280px;

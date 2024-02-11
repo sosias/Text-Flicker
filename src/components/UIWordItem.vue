@@ -25,6 +25,7 @@ defineProps({
   display: flex;
   align-items: center;
   gap: 5px;
+  width: 100%;
 }
 .circle {
   display: inline-block;

@@ -59,7 +59,7 @@ const fetchWords = async() => {
     <br/>
     Step velocity
     <section>
-      <input v-model.number="store.stepMilliseconds" type="range" min="1" max="1000" class="slider" />
+      <input v-model.number="store.stepMilliseconds" type="range" min="1" max="300" class="slider" />
       <input v-model="store.stepMilliseconds" type="number" /><span>ms</span>
     </section>
     <br/>
@@ -69,9 +69,7 @@ const fetchWords = async() => {
       <input v-model="store.randomOffset" type="number" /><span>ms</span>
     </section>
     <section class="wordlist">
-      <div v-for="(wordItem, index) in store.wordList && store.wordList[store.scene]" :key="index">
-        <UIWordItem :on="index==store.wordIndex" :index=index />
-      </div>
+      <UIWordItem v-for="(wordItem, index) in store.wordList && store.wordList[store.scene]" :key="index" :on="index==store.wordIndex" :index=index />
     </section>
   </div>
 </template>
@@ -84,7 +82,8 @@ const fetchWords = async() => {
   right: 0;
   top: 0;
   padding: 10px;
-  /* margin: 10px; */
+  width: 100%;
+  max-width: 300px;
 }
 
 section{

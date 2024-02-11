@@ -20,7 +20,7 @@ const changeScene = (sceneIndex) => {
 </script>
 
 <template>
-  <div class="container" v-if="store.isMiniUIVisible">
+  <div class="container_UI" v-if="store.isMiniUIVisible">
     <div id="miniUI">
       <section>
         <button class="button_ctrl" :disabled="isPlaying === true" v-on:click="setLoopStatus(true)">⏵</button>
@@ -29,7 +29,7 @@ const changeScene = (sceneIndex) => {
       </section>
       <section>
         <div v-for="(scene, index) in store.wordList" :key="index">
-          <button :disabled="index==store.scene" v-on:click="changeScene(index)" :index=index>{{index}}</button>
+          <button class="button_ctrl" :disabled="index==store.scene" v-on:click="changeScene(index)" :index=index>{{index}}</button>
         </div>
       </section>
     </div>
@@ -38,19 +38,23 @@ const changeScene = (sceneIndex) => {
 </template>
 
 <style scoped>
-.container{
+.container_UI{
+  position: absolute;
+  right: 0;
+  margin: 10px;
+  width: 100%;
+  max-width: 400px;
+}
+
+#miniUI{
   position: absolute;
   background-color: #fff;
   border-radius: 5px;
+  top: 0;
   right: 0;
   padding: 10px;
   padding-top: 0px;
   margin: 10px;
-  /* z-index: 10; */
-}
-
-#miniUI{
-  position: relative;
   z-index: 10;
 }
 
