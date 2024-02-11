@@ -62,12 +62,12 @@ const fetchWords = async() => {
       <input v-model.number="store.stepMilliseconds" type="range" min="1" max="300" class="slider" />
       <input v-model="store.stepMilliseconds" type="number" /><span>ms</span>
     </section>
-    <br/>
+    <!-- <br/>
     Add Random Offset
     <section>
       <input v-model.number="store.randomOffset" type="range" min="0" max="1000" class="slider" />
       <input v-model="store.randomOffset" type="number" /><span>ms</span>
-    </section>
+    </section> -->
     <section class="wordlist">
       <UIWordItem v-for="(wordItem, index) in store.wordList && store.wordList[store.scene]" :key="index" :on="index==store.wordIndex" :index=index />
     </section>
