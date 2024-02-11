@@ -5,11 +5,10 @@ const sketch = function (p) {
   const store = useUiStore()
 
   let font
-  //store.wordList = []
   store.scene = 0
   store.wordIndex = 0
   let lastTimeIncremented = 0
-  let audioClick = []
+  //let audioClick = []
 
   const incrementIndexIfTime = (millisecondStep) => {
     if (lastTimeIncremented + millisecondStep < Date.now()) {
@@ -39,11 +38,10 @@ const sketch = function (p) {
 
   p.preload = function () {
     font = p.loadFont(import.meta.env.BASE_URL + 'font/D-DIN-Bold.otf')
-    //store.wordList = p.loadJSON('/data/wordlist.json')
-    audioClick.push(new Audio(import.meta.env.BASE_URL + 'audio/click.mp3'))
-    audioClick.push(new Audio(import.meta.env.BASE_URL + 'audio/click.mp3'))
-    audioClick.push(new Audio(import.meta.env.BASE_URL + 'audio/click.mp3'))
-    audioClick.push(new Audio(import.meta.env.BASE_URL + 'audio/click.mp3'))
+    // audioClick.push(new Audio(import.meta.env.BASE_URL + 'audio/click.mp3'))
+    // audioClick.push(new Audio(import.meta.env.BASE_URL + 'audio/click.mp3'))
+    // audioClick.push(new Audio(import.meta.env.BASE_URL + 'audio/click.mp3'))
+    // audioClick.push(new Audio(import.meta.env.BASE_URL + 'audio/click.mp3'))
   }
 
   p.setup = function () {
@@ -60,14 +58,15 @@ const sketch = function (p) {
       store.wordList[store.scene][store.wordIndex].staying == ''
         ? store.stepMilliseconds
         : store.stepMilliseconds * store.wordList[store.scene][store.wordIndex].staying
-    if (incrementIndexIfTime(stepMillisecondsMod + p.random(0, store.randomOffset))) {
-      for (let i = 0; i < audioClick.length; i++) {
-        if (audioClick[i].paused) {
-          audioClick[i].play()
-          break
-        }
-      }
-    }
+    incrementIndexIfTime(stepMillisecondsMod + p.random(0, store.randomOffset))
+    // if (incrementIndexIfTime(stepMillisecondsMod + p.random(0, store.randomOffset))) {
+    //   for (let i = 0; i < audioClick.length; i++) {
+    //     if (audioClick[i].paused) {
+    //       audioClick[i].play()
+    //       break
+    //     }
+    //   }
+    // }
     drawWord(store.wordList[store.scene][store.wordIndex].text, p.width / 2, p.height / 2, color, 100)
   }
 
