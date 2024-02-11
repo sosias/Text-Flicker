@@ -26,14 +26,14 @@ const sketch = function (p) {
 
   const fittedText = (text, fontsize, posX, posY, fitX, fitY) => {
     p.textSize(p.min((fontsize * fitX) / p.textWidth(text), fitY))
-    p.text(text, posX, posY)
   }
-
-  const drawWord = (text, x, y, color, fontsize) => {
+  
+  const drawWord = (text, x, y, color, fontsize, fitted=false) => {
     p.fill(color)
     p.textSize(fontsize)
     p.textAlign(p.CENTER, p.CENTER)
-    fittedText(text, fontsize, x, y, p.width - 30, p.height)
+    if(fitted){fittedText(text, fontsize, x, y, p.width - 30, p.height)}
+    p.text(text, x, y)
   }
 
   p.preload = function () {
@@ -67,7 +67,13 @@ const sketch = function (p) {
     //     }
     //   }
     // }
-    drawWord(store.wordList[store.scene][store.wordIndex].text, p.width / 2, p.height / 2, color, 100)
+    p.drawingContext.filter = 'blur(100px)';
+    drawWord(store.wordList[store.scene][store.wordIndex].text, p.width / 2, p.height / 2, color, 100, store.fittedText)
+    drawWord(store.wordList[store.scene][store.wordIndex].text, p.width / 2, p.height / 2, color, 100, store.fittedText)
+    drawWord(store.wordList[store.scene][store.wordIndex].text, p.width / 2, p.height / 2, color, 100, store.fittedText)
+    drawWord(store.wordList[store.scene][store.wordIndex].text, p.width / 2, p.height / 2, color, 100, store.fittedText)
+    p.drawingContext.filter = 'blur(0px)';
+    drawWord(store.wordList[store.scene][store.wordIndex].text, p.width / 2, p.height / 2, color, 100, store.fittedText)
   }
 
   p.windowResized = function () {

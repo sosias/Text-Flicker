@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useUiStore } from '@/stores/ui'
 import UIWordItem from './UIWordItem.vue'
-import ObsWebSocket from './ObsWebSocket.vue'
+//import ObsWebSocket from './ObsWebSocket.vue'
 
 const store = useUiStore()
 const isVisible = ref(true)
@@ -32,6 +32,7 @@ const selectDevice = (deviceIndex) => {
 
 let wholeData;
 store.device = 0
+store.fittedText = false
 
 onMounted(() => {
   //initWebsocketConnection();
@@ -61,11 +62,11 @@ const fetchWords = async() => {
       <button class="button" v-on:click="isVisible = false">hide</button><span>shortcut 'h' toggle panel</span>
     </section>
     <br/>
-    Websocket address
+    <!-- Websocket address
     <section>
       <ObsWebSocket />
     </section>
-    <br/>
+    <br/> -->
     Device
     <section>
       <div v-for="(device, index) in wholeData" :key="index">
@@ -77,6 +78,11 @@ const fetchWords = async() => {
       <div v-for="(scene, index) in store.wordList" :key="index">
         <button :disabled="index==store.scene" v-on:click="changeScene(index)" :index=index>{{index}}</button>
       </div>
+    </section>
+    <br/>
+    Options
+    <section>
+      Fitting text <input v-model="store.fittedText" type="checkbox" name="scales" checked />
     </section>
     <br/>
     Step velocity
