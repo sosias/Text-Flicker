@@ -44,11 +44,21 @@ const sketch = function (p) {
     // audioClick.push(new Audio(import.meta.env.BASE_URL + 'audio/click.mp3'))
   }
 
+  const setLoopStatus = function (start) {
+    if(start){
+      p.loop()
+    }else{
+      p.noLoop()
+    }
+  }
+
   p.setup = function () {
     lastTimeIncremented = Date.now()
     p.createCanvas(p.windowWidth, p.windowHeight)
     p.noStroke()
     p.textFont(font)
+    p.noLoop()
+    store.setLoopStatus = setLoopStatus
   }
 
   p.draw = function () {

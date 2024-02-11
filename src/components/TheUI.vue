@@ -33,6 +33,7 @@ const selectDevice = (deviceIndex) => {
 let wholeData;
 store.device = 0
 store.fittedText = false
+const isPlaying = ref(false)
 
 onMounted(() => {
   //initWebsocketConnection();
@@ -43,6 +44,12 @@ onMounted(() => {
 onBeforeUnmount(() => {
   document.removeEventListener('keyup', userReleaseKey, true)
 })
+
+const setLoopStatus = (start) => {
+  isPlaying.value = start
+  console.log(store.setLoopStatus)
+  store.setLoopStatus(start)
+}
 
 const fetchWords = async() => {
   try {
@@ -67,6 +74,10 @@ const fetchWords = async() => {
       <ObsWebSocket />
     </section>
     <br/> -->
+    <section>
+      <button class="button_ctrl" :disabled="isPlaying === true" v-on:click="setLoopStatus(true)">⏵</button>
+      <button class="button_ctrl" :disabled="isPlaying === false" v-on:click="setLoopStatus(false)">⏹</button>
+    </section>
     Device
     <section>
       <div v-for="(device, index) in wholeData" :key="index">
