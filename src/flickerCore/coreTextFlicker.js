@@ -36,6 +36,17 @@ const sketch = function (p) {
     p.text(text, x, y)
   }
 
+  const drawWordsPolymorph = (text, x, y, color, fontsize, fitted=false) => {
+    if(Array.isArray(text)){
+      p.textSize(fontsize)
+      text.forEach((element,index) => {
+        drawWord(element, x, y + ((p.textAscent() + p.textDescent()) * index), color, fontsize, fitted)
+      });
+    }else{
+      drawWord(text, x, y, color, fontsize, fitted)
+    }
+  }
+
   p.preload = function () {
     font = p.loadFont(import.meta.env.BASE_URL + 'font/D-DIN-Bold.otf')
     // audioClick.push(new Audio(import.meta.env.BASE_URL + 'audio/click.mp3'))
@@ -78,12 +89,12 @@ const sketch = function (p) {
     //   }
     // }
     p.drawingContext.filter = 'blur(100px)';
-    drawWord(store.wordList[store.scene][store.wordIndex].text, p.width / 2, p.height / 2, color, 100, store.fittedText)
-    drawWord(store.wordList[store.scene][store.wordIndex].text, p.width / 2, p.height / 2, color, 100, store.fittedText)
-    drawWord(store.wordList[store.scene][store.wordIndex].text, p.width / 2, p.height / 2, color, 100, store.fittedText)
-    drawWord(store.wordList[store.scene][store.wordIndex].text, p.width / 2, p.height / 2, color, 100, store.fittedText)
+    drawWordsPolymorph(store.wordList[store.scene][store.wordIndex].text, p.width / 2, p.height / 2, color, 100, store.fittedText)
+    drawWordsPolymorph(store.wordList[store.scene][store.wordIndex].text, p.width / 2, p.height / 2, color, 100, store.fittedText)
+    drawWordsPolymorph(store.wordList[store.scene][store.wordIndex].text, p.width / 2, p.height / 2, color, 100, store.fittedText)
+    drawWordsPolymorph(store.wordList[store.scene][store.wordIndex].text, p.width / 2, p.height / 2, color, 100, store.fittedText)
     p.drawingContext.filter = 'blur(0px)';
-    drawWord(store.wordList[store.scene][store.wordIndex].text, p.width / 2, p.height / 2, color, 100, store.fittedText)
+    drawWordsPolymorph(store.wordList[store.scene][store.wordIndex].text, p.width / 2, p.height / 2, color, 100, store.fittedText)
   }
 
   p.windowResized = function () {
