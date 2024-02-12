@@ -1,6 +1,7 @@
 <script setup>
 import { useUiStore } from '@/stores/ui'
 import UIWordItem from './UIWordItem.vue'
+import { ref } from 'vue';
 //import ObsWebSocket from './ObsWebSocket.vue'
 
 const store = useUiStore()
@@ -26,11 +27,37 @@ onBeforeUnmount(() => {
 
 })
 
+const setWholeData = (data) => {
+  wholeData = data
+  store.wordList  = wholeData[0]
+}
+
+const fileInput = ref("fileInput");
+const importJson = () => {
+  fileInput.value.click();
+}
+
+const loadJSONFromFile = (event) => {
+  const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          let fileContent = JSON.parse(e.target.result)
+          setWholeData(fileContent)
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
+        }
+      }
+    reader.readAsText(file);
+  }
+}
+
 const fetchWords = async() => {
   try {
     const response = await fetch(import.meta.env.BASE_URL + 'data/wordlist.json');
-    wholeData = await response.json();
-    store.wordList  = wholeData[0]
+    let wholeData = await response.json();
+    setWholeData(wholeData)
   } catch (error) {
     console.error(error);
   }
@@ -70,6 +97,15 @@ const fetchWords = async() => {
     </section> -->
     <section class="wordlist">
       <UIWordItem v-for="(wordItem, index) in store.wordList && store.wordList[store.scene]" :key="index" :on="index==store.wordIndex" :index=index />
+    </section>
+    <br />
+    <section>
+      <input type="file" ref="fileInput" v-on:change="loadJSONFromFile" hidden />
+      <button class="button" v-on:click="importJson()">Import json</button>
+    </section>
+    <br />
+    <section>
+      <button class="button" v-on:click="console.log(JSON.stringify(store.wordList))">Print json</button>
     </section>
   </div>
 </template>
