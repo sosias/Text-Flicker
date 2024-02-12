@@ -16,23 +16,32 @@ defineProps({
 </script>
 <template>
   <div class="row">
-    <span class="circle" :class="{ 'c-on': on }"></span><input type="text" v-model=store.wordList[store.scene][index].text /><input class="staying" type="text" v-model=store.wordList[store.scene][index].staying />
+    <span class="circle" :class="{ 'c-on': on }"></span>
+    <input :key=index v-if="!Array.isArray(store.wordList[store.scene][index].text)" type="text" v-model=store.wordList[store.scene][index].text />
+    <div v-else>
+      <input :key="index+'-'+indexSub" v-for="(a,indexSub) in store.wordList[store.scene][index].text" type="text" v-model=store.wordList[store.scene][index].text[indexSub] />
+    </div>
+    <input class="staying" type="text" v-model=store.wordList[store.scene][index].staying />
   </div>
 </template>
 
 <style scoped>
 .row{
   display: flex;
-  align-items: center;
-  gap: 5px;
+  align-items: top;
+  /* gap: 5px; */
   width: 100%;
 }
+
+input{
+  margin: 1px 5px;
+}
 .circle {
-  display: inline-block;
+  display: block;
   background-color: #d1d1d1;
-  height: 15px;
-  width: 15px;
-  border-radius: 50%;
+  height: 10px;
+  width: 100%;
+  max-width: 10px;
 }
 .c-on{
     background-color: #00abff;
