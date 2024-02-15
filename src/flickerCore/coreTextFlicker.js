@@ -88,12 +88,11 @@ const sketch = function (p) {
     //     }
     //   }
     // }
-    p.drawingContext.filter = 'blur(100px)';
-    drawWordsPolymorph(store.wordList[store.scene][store.wordIndex].text, p.width / 2, p.height / 2, color, 100, store.fittedText)
-    drawWordsPolymorph(store.wordList[store.scene][store.wordIndex].text, p.width / 2, p.height / 2, color, 100, store.fittedText)
-    drawWordsPolymorph(store.wordList[store.scene][store.wordIndex].text, p.width / 2, p.height / 2, color, 100, store.fittedText)
-    drawWordsPolymorph(store.wordList[store.scene][store.wordIndex].text, p.width / 2, p.height / 2, color, 100, store.fittedText)
-    p.drawingContext.filter = 'blur(0px)';
+    if(store.blur){
+      p.drawingContext.filter = 'drop-shadow(0 0 50px #fff)';
+      drawWordsPolymorph(store.wordList[store.scene][store.wordIndex].text, p.width / 2, p.height / 2, color, 100, store.fittedText)
+      p.drawingContext.filter = 'blur(0px)';
+    }
     drawWordsPolymorph(store.wordList[store.scene][store.wordIndex].text, p.width / 2, p.height / 2, color, 100, store.fittedText)
   }
 

@@ -17,6 +17,7 @@ const selectDevice = (deviceIndex) => {
 let wholeData;
 store.device = 0
 store.fittedText = false
+store.blur = false
 
 onMounted(() => {
   //initWebsocketConnection();
@@ -81,7 +82,10 @@ const fetchWords = async() => {
     <br />
     Options
     <section>
-      Fitting text <input v-model="store.fittedText" type="checkbox" name="scales" checked />
+      Fitting text <input v-model="store.fittedText" type="checkbox" checked />
+    </section>
+    <section>
+      Blur <input v-model="store.blur" type="checkbox" />
     </section>
     <br/>
     Step velocity
