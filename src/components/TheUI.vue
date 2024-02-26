@@ -80,19 +80,28 @@ const fetchWords = async() => {
       </div>
     </section>
     <br />
-    Options
     <section>
-      Fitting text <input v-model="store.fittedText" type="checkbox" checked />
+      <input type="file" ref="fileInput" v-on:change="loadJSONFromFile" hidden />
+      <button class="button" v-on:click="importJson()">Import json</button>
     </section>
+    <br />
+    <!-- <section>
+      <button class="button" v-on:click="console.log(JSON.stringify(store.wordList))">Print json</button>
+    </section>
+    <br /> -->
+    <!-- Options -->
+    <!-- <section>
+      Fitting text <input v-model="store.fittedText" type="checkbox" checked />
+    </section> -->
     <section>
       Blur <input v-model="store.blur" type="checkbox" />
     </section>
-    <br/>
+    <!-- <br/>
     Step velocity
     <section>
       <input v-model.number="store.stepMilliseconds" type="range" min="1" max="300" class="slider" />
       <input v-model="store.stepMilliseconds" type="number" /><span>ms</span>
-    </section>
+    </section> -->
     <!-- <br/>
     Add Random Offset
     <section>
@@ -101,15 +110,6 @@ const fetchWords = async() => {
     </section> -->
     <section class="wordlist">
       <UIWordItem v-for="(wordItem, index) in store.wordList && store.wordList[store.scene]" :key="index" :on="index==store.wordIndex" :index=index />
-    </section>
-    <br />
-    <section>
-      <input type="file" ref="fileInput" v-on:change="loadJSONFromFile" hidden />
-      <button class="button" v-on:click="importJson()">Import json</button>
-    </section>
-    <br />
-    <section>
-      <button class="button" v-on:click="console.log(JSON.stringify(store.wordList))">Print json</button>
     </section>
   </div>
 </template>
