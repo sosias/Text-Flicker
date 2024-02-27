@@ -136,7 +136,8 @@ const fetchWords = async() => {
   top: 0;
   padding: 10px;
   width: 100%;
-  max-width: 300px;
+  max-width: 330px;
+  padding-top: 250px;
 }
 
 section{
