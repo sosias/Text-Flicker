@@ -11,11 +11,13 @@ const isPlaying = ref(false)
 const setLoopStatus = (start) => {
   isPlaying.value = start
   store.setLoopStatus(start)
+  store.wordIndex = 0
 }
 
 const changeScene = (sceneIndex) => {
-  store.wordIndex = 0
   store.scene = sceneIndex
+  store.wordIndex = 0
+  store.drawOnce()
 }
 </script>
 

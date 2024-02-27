@@ -70,6 +70,7 @@ const sketch = function (p) {
     p.textFont(font)
     p.noLoop()
     store.setLoopStatus = setLoopStatus
+    store.drawOnce = p.draw
   }
 
   p.draw = function () {
