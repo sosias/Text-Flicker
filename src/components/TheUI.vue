@@ -22,11 +22,24 @@ store.blur = false
 onMounted(() => {
   //initWebsocketConnection();
   fetchWords();
+  setDeviceFromHash();
 })
 
 onBeforeUnmount(() => {
 
 })
+
+window.addEventListener('hashchange', function() {
+  setDeviceFromHash()
+})
+
+const setDeviceFromHash = () => {
+  if(window.location.hash == "#a1"){
+    store.device = 0
+  } else if(window.location.hash == "#a2"){
+    store.device = 1
+  }
+}
 
 const setWholeData = (data) => {
   wholeData = data
