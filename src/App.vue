@@ -9,7 +9,19 @@ store.isMiniUIVisible = false;
 
 const canvasOutlet = ref("canvasOutlet");
 
+const fetchWords = async() => {
+  try {
+    const response = await fetch(import.meta.env.BASE_URL + 'data/wordlist.json');
+    store.wholeData = await response.json();
+    store.wordList = store.wholeData[0]
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 onMounted(() => {
+  store.device = 0
+  fetchWords()
   const result = textFlickerMain(canvasOutlet.value);
   Object.assign(canvasOutlet.value, result);
 });
@@ -27,5 +39,10 @@ onMounted(() => {
 
 #canvas{
   position: absolute;
+}
+
+@font-face {
+    font-family: "din-bold";
+    src: url('assets/fonts/D-DIN-Bold.otf');
 }
 </style>

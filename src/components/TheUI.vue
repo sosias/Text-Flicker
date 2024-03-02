@@ -11,17 +11,13 @@ import { onMounted, onBeforeUnmount } from 'vue';
 const selectDevice = (deviceIndex) => {
   store.device = deviceIndex
   store.wordIndex = 0
-  store.wordList = wholeData[deviceIndex]
+  store.wordList = store.wholeData[deviceIndex]
 }
 
-let wholeData;
-store.device = 0
 store.fittedText = false
 store.blur = false
 
 onMounted(() => {
-  //initWebsocketConnection();
-  fetchWords();
   setDeviceFromHash();
 })
 
@@ -42,8 +38,8 @@ const setDeviceFromHash = () => {
 }
 
 const setWholeData = (data) => {
-  wholeData = data
-  store.wordList  = wholeData[0]
+  store.wholeData = data
+  store.wordList  = store.wholeData[0]
 }
 
 const fileInput = ref("fileInput");
@@ -64,16 +60,6 @@ const loadJSONFromFile = (event) => {
         }
       }
     reader.readAsText(file);
-  }
-}
-
-const fetchWords = async() => {
-  try {
-    const response = await fetch(import.meta.env.BASE_URL + 'data/wordlist.json');
-    let wholeData = await response.json();
-    setWholeData(wholeData)
-  } catch (error) {
-    console.error(error);
   }
 }
 
@@ -103,9 +89,9 @@ const fetchWords = async() => {
     </section>
     <br /> -->
     <!-- Options -->
-    <!-- <section>
+    <section>
       Fitting text <input v-model="store.fittedText" type="checkbox" checked />
-    </section> -->
+    </section>
     <section>
       Blur <input v-model="store.blur" type="checkbox" />
     </section>
