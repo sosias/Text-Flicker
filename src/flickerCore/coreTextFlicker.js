@@ -5,6 +5,7 @@ const sketch = (function() {
   let store
   let lastTimeIncremented = 0
   let running = false
+  let fitFontSize = 100
 
   const incrementIndexIfTime = (millisecondStep) => {
     if (lastTimeIncremented + millisecondStep < Date.now()) {
@@ -18,9 +19,20 @@ const sketch = (function() {
     return false
   }
 
-  const fittedText = (text, fontsize, posX, posY, fitX, fitY) => {
-    fontsize = Math.min(fitX / context.measureText(text).width * fontsize, fitY)
+  const getFontSizeOfFittedText = (text, fontsize, fitX, fitY) => {
     context.font = `${fontsize}px 'din-bold'`;
+    return Math.min(fitX / context.measureText(text).width * fontsize, fitY)
+  }
+  
+  const fittedText = (text, fontsize, fitX, fitY) => {
+    context.font = `${fontsize}px 'din-bold'`;
+    fontsize = getFontSizeOfFittedText(text, fontsize, fitX, fitY)
+    context.font = `${fontsize}px 'din-bold'`;
+  }
+
+  const calculateCurrentFontSize = () => {
+    let fitFontSizeReference = "Normalerweise"
+    fitFontSize = getFontSizeOfFittedText(fitFontSizeReference, fitFontSize, context.canvas.width - 30, context.canvas.height)
   }
 
   const drawWord = (text, x, y, color, fontsize, fitted=false) => {
@@ -28,7 +40,7 @@ const sketch = (function() {
     context.font = `${fontsize}px 'din-bold'`;
     context.textAlign = 'center';
     context.textBaseline = 'middle';
-    if(fitted){fittedText(text, fontsize, x, y, context.canvas.width - 30, context.canvas.height)}
+    if(fitted){fittedText(text, fontsize, context.canvas.width - 30, context.canvas.height)}
     context.fillText(text, x, y);
   }
 
@@ -64,6 +76,7 @@ const sketch = (function() {
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
     window.onresize = windowResized
+    calculateCurrentFontSize()
 
     store.setLoopStatus = setLoopStatus
     store.drawOnce = draw
@@ -91,15 +104,16 @@ const sketch = (function() {
     const color = 'white'
     if(store.blur){
       context.filter = 'drop-shadow(0 0 50px #fff)';
-      drawWordsPolymorph(store.wordList[store.scene][store.wordIndex].text, context.canvas.clientWidth / 2, context.canvas.clientHeight / 2, color, 100, store.fittedText)
+      drawWordsPolymorph(store.wordList[store.scene][store.wordIndex].text, context.canvas.clientWidth / 2, context.canvas.clientHeight / 2, color, fitFontSize, store.fittedText)
       context.filter = 'blur(0px)';
     }
-    drawWordsPolymorph(store.wordList[store.scene][store.wordIndex].text, context.canvas.clientWidth / 2, context.canvas.clientHeight / 2, color, 100, store.fittedText)
+    drawWordsPolymorph(store.wordList[store.scene][store.wordIndex].text, context.canvas.clientWidth / 2, context.canvas.clientHeight / 2, color, fitFontSize, store.fittedText)
   }
 
   const windowResized = (event) => {
     context.canvas.width = window.innerWidth
     context.canvas.height = window.innerHeight
+    calculateCurrentFontSize()
   }
 
   return {
