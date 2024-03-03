@@ -34,6 +34,22 @@ const setDeviceFromHash = () => {
   }
 }
 
+const updateFittedCheckbox = () => {
+  store.fittedText = !store.fittedText
+  updateCanvas()
+}
+
+const updateBlurCheckbox = () => {
+  store.blur = !store.blur
+  updateCanvas()
+}
+
+const updateCanvas = () => {
+  if(!store.isPlaying){
+    store.drawOnce()
+  }
+}
+
 const setWholeData = (data) => {
   store.wholeData = data
   store.wordList  = store.wholeData[0]
@@ -92,12 +108,12 @@ const loadJSONFromFile = (event) => {
             <!-- Options -->
             <fieldset class="check-btn">
               <label for="fit">Fit text</label>
-          <input id="fit" v-model="store.fittedText" type="checkbox" checked />
-        </fieldset>
-        <fieldset class="check-btn">
-          <label for="blur">Blur</label>
-          <input id="blur" v-model="store.blur" type="checkbox" />
-        </fieldset>
+              <input id="fit" :value="store.fittedText" v-on:click="updateFittedCheckbox()" type="checkbox" />
+            </fieldset>
+            <fieldset class="check-btn">
+              <label for="blur">Blur</label>
+              <input id="blur" :value="store.blur" v-on:click="updateBlurCheckbox()" type="checkbox" />
+            </fieldset>
         <!-- <br/>
           Step velocity
           <section>

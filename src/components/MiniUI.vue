@@ -7,7 +7,6 @@ import stopIcon from "@/assets/imgs/stop.svg"
 const store = useUiStore()
 
 store.isPanelUIVisible = false
-store.isPlaying = false
 
 const setLoopStatus = (start) => {
   store.setLoopStatus(start)

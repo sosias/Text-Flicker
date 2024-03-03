@@ -88,7 +88,14 @@ const sketch = (function() {
   }
 
   const mainLoop = () => {
-      if(store.wordList){draw()}
+      if(store.wordList){
+        draw()
+
+        let stepMillisecondsMod = store.wordList[store.scene][store.wordIndex].staying == ''
+        ? store.stepMilliseconds
+        : store.stepMilliseconds * store.wordList[store.scene][store.wordIndex].staying
+        incrementIndexIfTime(stepMillisecondsMod)
+      }
 
       if(running){
         window.requestAnimationFrame(mainLoop)
@@ -97,11 +104,6 @@ const sketch = (function() {
 
   const draw = () => {
     context.clearRect(0, 0, context.canvas.width, context.canvas.height)
-
-    let stepMillisecondsMod = store.wordList[store.scene][store.wordIndex].staying == ''
-    ? store.stepMilliseconds
-    : store.stepMilliseconds * store.wordList[store.scene][store.wordIndex].staying
-    incrementIndexIfTime(stepMillisecondsMod)
 
     const color = 'white'
     if(store.blur){
