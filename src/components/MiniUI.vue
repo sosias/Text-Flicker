@@ -1,6 +1,5 @@
 <script setup>
 import { useUiStore } from '@/stores/ui'
-import { ref } from 'vue'
 import TheUI from "./TheUI.vue";
 import playIcon from "@/assets/imgs/play.svg"
 import stopIcon from "@/assets/imgs/stop.svg"
@@ -8,10 +7,9 @@ import stopIcon from "@/assets/imgs/stop.svg"
 const store = useUiStore()
 
 store.isPanelUIVisible = false
-const isPlaying = ref(false)
+store.isPlaying = false
 
 const setLoopStatus = (start) => {
-  isPlaying.value = start
   store.setLoopStatus(start)
   store.wordIndex = 0
 }
@@ -28,8 +26,8 @@ const changeScene = (sceneIndex) => {
     <div class="container_UI" v-if="store.isMiniUIVisible">
       <div id="miniUI">
         <section>
-          <button class="button_ctrl" :disabled="isPlaying === true" v-on:click="setLoopStatus(true)"><img alt="play" :src=playIcon /></button>
-          <button class="button_ctrl" :disabled="isPlaying === false" v-on:click="setLoopStatus(false)"><img alt="stop" :src=stopIcon /></button>
+          <button class="button_ctrl" :disabled="store.isPlaying === true" v-on:click="setLoopStatus(true)"><img alt="play" :src=playIcon /></button>
+          <button class="button_ctrl" :disabled="store.isPlaying === false" v-on:click="setLoopStatus(false)"><img alt="stop" :src=stopIcon /></button>
           <button class="button_ctrl" v-on:click="store.isPanelUIVisible=!store.isPanelUIVisible">*</button>
         </section>
         <section>
