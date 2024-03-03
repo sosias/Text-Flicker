@@ -3,7 +3,7 @@ import { textFlickerMain } from "./flickerCore/coreTextFlicker.js";
 import { useUiStore } from '@/stores/ui';
 import { onMounted, ref } from 'vue';
 import MiniUI from './components/MiniUI.vue'
-import Hints from './components/Hints.vue'
+import HintsHud from './components/HintsHud.vue'
 
 const store = useUiStore();
 store.isMiniUIVisible = false;
@@ -33,7 +33,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Hints />
+  <HintsHud />
   <div id="canvas" ref="canvasOutlet" v-on:click="store.isMiniUIVisible=!store.isMiniUIVisible"></div>
   <MiniUI />
 </template>
