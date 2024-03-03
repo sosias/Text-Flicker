@@ -22,6 +22,8 @@ const fetchWords = async() => {
 onMounted(() => {
   store.device = 0
   fetchWords()
+  store.fittedText = false
+  store.blur = false
   const result = textFlickerMain(canvasOutlet.value);
   Object.assign(canvasOutlet.value, result);
 });

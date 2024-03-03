@@ -14,9 +14,6 @@ const selectDevice = (deviceIndex) => {
   store.wordList = store.wholeData[deviceIndex]
 }
 
-store.fittedText = false
-store.blur = false
-
 onMounted(() => {
   setDeviceFromHash();
 })
