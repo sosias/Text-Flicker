@@ -1,4 +1,5 @@
 $btnColor: #0075ff;
+$sizeHalf: 47.5px;
 
 // Reset default link styles
 a.button {
@@ -27,15 +28,16 @@ button.button {
   align-self: start; // Optional - see "Gotchas"
 
   // Visual
-  background-color: $btnColor;
+  background-color: black;
   color: #fff;
   border-radius: 5px;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.18);
+  border: 1px dashed #999;
 
   // Size
-  padding: 0.25em 0.75em;
-  min-width: 7ch;
-  min-height: 30px;
+  padding: 4px 9px;
+  width: 100px;
+  min-height: $sizeHalf;
 
   // Text
   text-align: center;
@@ -70,5 +72,33 @@ canvas{
 .button_ctrl{
   width: 100px;
   height: 100px;
+  display: grid;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+  background-color: transparent;
+  color: white;
+  border: solid 1px #999;
+  transition: all 0.2s linear 0s;
+  
+  &:hover{
+    background-color: #333;
+  }
+  
+  &[disabled]{
+    transition: all 0.2s linear 0s;
+    background: repeating-linear-gradient(
+      45deg,
+      #333,
+      #333 10px,
+      #252525 10px,
+      #252525 20px
+    );
+    cursor: default;
+  }
+
+  &-small{
+    width: $sizeHalf;
+    height: $sizeHalf;
+  }
 }

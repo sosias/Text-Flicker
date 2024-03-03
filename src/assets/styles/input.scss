@@ -1,3 +1,11 @@
 input[type=text], input[type=number]{
     width: 100%;
+    background-color: black;
+    color: white;
+    border: solid 1px #999;
+}
+
+input[type=checkbox]{
+    width: 47px;
+    height: 47px;
 }

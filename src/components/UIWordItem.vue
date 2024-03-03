@@ -35,16 +35,20 @@ defineProps({
 
 input{
   margin: 1px 5px;
+
+  &:last-child{
+    margin-right: 0px;
+  }
 }
 .circle {
   display: block;
-  background-color: #d1d1d1;
-  height: 10px;
+  background-color: #333;
+  height: 24px;
   width: 100%;
   max-width: 10px;
 }
 .c-on{
-    background-color: #00abff;
+    background-color: #999;
   }
 
 .staying{

@@ -41,6 +41,10 @@ onMounted(() => {
   position: absolute;
 }
 
+canvas{
+  background-color: black;
+}
+
 @font-face {
     font-family: "din-bold";
     src: url('assets/fonts/D-DIN-Bold.otf');
