@@ -14,6 +14,7 @@ const sketch = (function() {
       if (store.wordIndex >= Object.keys(store.wordList[store.scene]).length) {
         store.wordIndex = 0
         setLoopStatus(false)
+        clear()
       }
       return true
     }
@@ -64,6 +65,10 @@ const sketch = (function() {
       running = false
     }
     store.isPlaying = start
+  }
+
+  const clear = () => {
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height)
   }
 
   const init = (node) => {
