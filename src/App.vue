@@ -3,6 +3,7 @@ import { textFlickerMain } from "./flickerCore/coreTextFlicker.js";
 import { useUiStore } from '@/stores/ui';
 import { onMounted, ref } from 'vue';
 import MiniUI from './components/MiniUI.vue'
+import Hints from './components/Hints.vue'
 
 const store = useUiStore();
 store.isMiniUIVisible = false;
@@ -21,6 +22,7 @@ const fetchWords = async() => {
 
 onMounted(() => {
   store.device = 0
+  store.scene = 0
   fetchWords()
   store.isPlaying = false
   store.fittedText = false
@@ -31,6 +33,7 @@ onMounted(() => {
 </script>
 
 <template>
+  <Hints />
   <div id="canvas" ref="canvasOutlet" v-on:click="store.isMiniUIVisible=!store.isMiniUIVisible"></div>
   <MiniUI />
 </template>

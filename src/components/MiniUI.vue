@@ -18,6 +18,8 @@ const changeScene = (sceneIndex) => {
   store.wordIndex = 0
   store.drawOnce()
 }
+
+store.changeScene = changeScene
 </script>
 
 <template>

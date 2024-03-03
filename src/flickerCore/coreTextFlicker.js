@@ -60,6 +60,7 @@ const sketch = (function() {
   const setLoopStatus = function (start) {
     if(start){
       running = true
+      lastTimeIncremented = Date.now()
       mainLoop()
     }else{
       running = false
