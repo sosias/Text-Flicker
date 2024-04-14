@@ -60,6 +60,11 @@ const setWholeData = (data) => {
   store.wordList  = store.wholeData[0]
 }
 
+const clearJson = () => {
+  localStorage.removeItem("wholeData");
+  setWholeData(store.originalData);
+}
+
 const fileInput = ref("fileInput");
 const importJson = () => {
   fileInput.value.click();
@@ -73,6 +78,7 @@ const loadJSONFromFile = (event) => {
         try {
           let fileContent = JSON.parse(e.target.result)
           setWholeData(fileContent)
+          localStorage.setItem("wholeData", e.target.result); // save to local storage
         } catch (error) {
           console.error('Error parsing JSON:', error);
         }
@@ -105,6 +111,9 @@ const loadJSONFromFile = (event) => {
             <fieldset>
               <input type="file" ref="fileInput" v-on:change="loadJSONFromFile" hidden />
               <button class="button" v-on:click="importJson()">Import json</button>
+            </fieldset>
+            <fieldset>
+              <button class="button" v-on:click="clearJson()">Clear json</button>
             </fieldset>
             <!-- <section>
               <button class="button" v-on:click="console.log(JSON.stringify(store.wordList))">Print json</button>

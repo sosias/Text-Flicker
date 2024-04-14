@@ -9,6 +9,8 @@ import EffectCanvas from './components/EffectCanvas.vue'
 const store = useUiStore();
 store.isMiniUIVisible = false;
 
+const cachedData = localStorage.getItem("wholeData");
+
 const canvasOutlet = ref("canvasOutlet");
 
 const fetchWords = async() => {
@@ -16,6 +18,7 @@ const fetchWords = async() => {
     const response = await fetch(import.meta.env.BASE_URL + 'data/wordlist.json');
     store.wholeData = await response.json();
     store.wordList = store.wholeData[0]
+    store.originalData = store.wholeData
   } catch (error) {
     console.error(error);
   }
@@ -24,7 +27,12 @@ const fetchWords = async() => {
 onMounted(() => {
   store.device = 0
   store.scene = 0
-  fetchWords()
+  if(cachedData){
+    store.wholeData = JSON.parse(cachedData)
+    store.wordList = store.wholeData[0]
+  }else{
+    fetchWords()
+  }
   store.isPlaying = false
   store.fittedText = false
   store.blur = false
