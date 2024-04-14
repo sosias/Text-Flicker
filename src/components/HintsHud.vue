@@ -29,7 +29,7 @@ const nextAndPlay = () => {
   .hud{
     position: absolute;
     z-index: 10;
-    top: 5px;
+    bottom: 5px;
     left: 5px;
     display: flex;
     gap: 5px;
@@ -37,7 +37,7 @@ const nextAndPlay = () => {
     &__circle{
       height: 10px;
       width: 10px;
-      background-color: #999;
+      background-color: #3f9451;
       border-radius: 10px;
     }
   }
