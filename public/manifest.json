@@ -1,0 +1,8 @@
+{
+    "name": "TextFlicker",
+    "short_name": "TextFlicker",
+    "start_url": "/#a2",
+    "display": "fullscreen",
+    "background_color": "#000",
+    "description": "Flicker flicker flicker"
+}
