@@ -28,6 +28,7 @@ onMounted(() => {
   store.isPlaying = false
   store.fittedText = false
   store.blur = false
+  store.calibration = false
   const result = textFlickerMain(canvasOutlet.value);
   Object.assign(canvasOutlet.value, result);
 });
@@ -35,7 +36,7 @@ onMounted(() => {
 
 <template>
   <HintsHud />
-  <EffectCanvas />
+  <EffectCanvas v-if="store.calibration" />
   <div id="canvas" ref="canvasOutlet" v-on:click="store.isMiniUIVisible=!store.isMiniUIVisible"></div>
   <MiniUI />
 </template>

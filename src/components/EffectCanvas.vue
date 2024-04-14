@@ -1,7 +1,13 @@
 <script setup>
   import { onMounted, onUnmounted, ref } from 'vue';
+  import { useUiStore } from '@/stores/ui'
 
-  const canvas = ref("canvas");
+  const store = useUiStore()
+
+  const canvas = ref("canvas")
+  let gl
+  let resolutionLocation
+  store.fxPlaying = true
 
   onMounted(() => {
      initWebGL()
@@ -15,39 +21,48 @@
   const resize = (e) => {
     canvas.value.width = window.innerWidth
     canvas.value.height = window.innerHeight
+
+    gl.uniform2f(resolutionLocation, canvas.value.width, canvas.value.height);
   }
 
   const initWebGL = () => {
-    const gl = canvas.value.getContext('webgl');
+    gl = canvas.value.getContext('webgl');
     canvas.value.width = window.innerWidth
     canvas.value.height = window.innerHeight
 
     // Vertex shader
     const vertexShaderSource = `
-      attribute vec4 position;
-      void main() {
-        gl_Position = position;
-      }
+    attribute vec3 position;
+
+    void main()	{
+      gl_Position = vec4(position, 1.0);
+    }
     `;
 
     // Fragment shader
     const fragmentShaderSource = `
-      precision mediump float;
+      precision highp float;
+      uniform vec2 uResolution;
       uniform float time;
-      // void main() {
-      //   float y = sin(time);
-      //   gl_FragColor = vec4(y, y, y, 1.0);
-      //   //gl_FragColor = vec4(0.0, 1.0, 1.0, 1.0);
-      // }
+      float xScale = 5.0;
+      float yScale = 0.4;
+      float distortion = 0.03;
 
       void main() {
-    gl_FragColor = vec4(
-      mod(gl_FragCoord.x / 256., 1.),
-      mod((gl_FragCoord.x + gl_FragCoord.y - time * 40.) / 256. , 1.),
-      mod(gl_FragCoord.y / 256., 1.),
-      1.
-    );
-  }
+        vec2 p = (gl_FragCoord.xy * 2.0 - uResolution) / min(uResolution.x, uResolution.y);
+        
+        float d = length(p) * distortion;
+        
+        float rx = p.x * (1.0 + d);
+        float gx = p.x;
+        float bx = p.x * (1.0 - d);
+
+        float r = 0.05 / abs(p.y + sin((rx + time) * xScale * fract(sin(time*0.2)*1.0)) * yScale);
+        float g = 0.05 / abs(p.y + sin((gx + time) * xScale * fract(sin(time*0.2)*1.0)) * yScale);
+        float b = 0.05 / abs(p.y + sin((bx + time) * xScale * fract(sin(time*0.2)*1.0)) * yScale);
+        
+        gl_FragColor = vec4(r, g, b, 1.0);
+      }
     `;
 
     // Compile shaders and link them into a program
@@ -68,25 +83,29 @@
 
     // Set up the time uniform
     const timeLocation = gl.getUniformLocation(program, "time");
-
+    resolutionLocation = gl.getUniformLocation(program, 'uResolution');
+    
     // Draw the scene
-    function drawScene(time) {
+    const drawScene = (time) => {
       gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
       gl.clearColor(0, 0, 0, 1);
       gl.clear(gl.COLOR_BUFFER_BIT);
-
+      
       gl.useProgram(program);
       gl.enableVertexAttribArray(positionLocation);
       gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
       gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
-
+      
+      gl.uniform2f(resolutionLocation, gl.canvas.width, gl.canvas.height);
       gl.uniform1f(timeLocation, time * 0.001); // Convert time to seconds
-
+      
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-
-      requestAnimationFrame(drawScene);
+      
+      if(store.fxPlaying){
+        requestAnimationFrame(drawScene);
+      }
     }
-
+    
     requestAnimationFrame(drawScene);
   }
 

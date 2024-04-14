@@ -44,6 +44,11 @@ const updateBlurCheckbox = () => {
   updateCanvas()
 }
 
+const updateCalibrationCheckbox = () => {
+  store.calibration = !store.calibration
+  //updateCanvas()
+}
+
 const updateCanvas = () => {
   if(!store.isPlaying){
     store.drawOnce()
@@ -108,11 +113,15 @@ const loadJSONFromFile = (event) => {
             <!-- Options -->
             <fieldset class="check-btn">
               <label for="fit">Fit text</label>
-              <input id="fit" :value="store.fittedText" v-on:click="updateFittedCheckbox()" type="checkbox" />
+              <input id="fit" v-model="store.fittedText" v-on:click="updateFittedCheckbox()" type="checkbox" />
             </fieldset>
             <fieldset class="check-btn">
               <label for="blur">Blur</label>
-              <input id="blur" :value="store.blur" v-on:click="updateBlurCheckbox()" type="checkbox" />
+              <input id="blur" v-model="store.blur" v-on:click="updateBlurCheckbox()" type="checkbox" />
+            </fieldset>
+            <fieldset class="check-btn">
+              <label for="calibration">Init</label>
+              <input id="calibration" v-model="store.calibration" v-on:click="updateCalibrationCheckbox()" type="checkbox" />
             </fieldset>
         <!-- <br/>
           Step velocity
