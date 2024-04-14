@@ -57,9 +57,9 @@
         float gx = p.x;
         float bx = p.x * (1.0 - d);
 
-        float r = 0.05 / abs(p.y + sin((rx + time) * xScale * fract(sin(time*0.2)*1.0)) * yScale);
-        float g = 0.05 / abs(p.y + sin((gx + time) * xScale * fract(sin(time*0.2)*1.0)) * yScale);
-        float b = 0.05 / abs(p.y + sin((bx + time) * xScale * fract(sin(time*0.2)*1.0)) * yScale);
+        float r = 0.05 / abs(p.y + sin((rx + time) * xScale * fract(sin(time*0.2)*10.0)) * yScale);
+        float g = 0.05 / abs(p.y + sin((gx + time) * xScale * fract(sin(time*0.2)*10.0)) * yScale);
+        float b = 0.05 / abs(p.y + sin((bx + time) * xScale * fract(sin(time*0.2)*10.0)) * yScale);
         
         gl_FragColor = vec4(r, g, b, 1.0);
       }
