@@ -1,17 +1,24 @@
 <script setup>
 import { useUiStore } from '@/stores/ui'
+import { onBeforeUnmount } from 'vue';
 import TheUI from "./TheUI.vue";
 import playIcon from "@/assets/imgs/play.svg"
 import stopIcon from "@/assets/imgs/stop.svg"
 
 const store = useUiStore()
+let closingTimeoutID;
 
 store.isPanelUIVisible = false
 
 const setLoopStatus = (start) => {
   store.setLoopStatus(start)
   store.wordIndex = 0
+  closingTimeoutID = setTimeout(() => { store.isMiniUIVisible = false }, 2000);
 }
+
+onBeforeUnmount(() => {
+  clearTimeout(closingTimeoutID)
+})
 
 const changeScene = (sceneIndex) => {
   store.scene = sceneIndex
