@@ -102,10 +102,7 @@ const loadJSONFromFile = (event) => {
             <fieldset>
               <label>Device</label>
               <div class="input_group">
-                <div v-for="(device, index) in store.wholeData" :key="index">
-                  <button class="button_ctrl button_ctrl-small" :disabled="index == store.device" v-on:click="selectDevice(index)"
-                  :index=index>{{ index }}</button>
-                </div>
+                <button class="button_ctrl button_ctrl-small" disabled>{{ store.device + 1 }}</button>
               </div>
             </fieldset>
             <fieldset>
