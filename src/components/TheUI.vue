@@ -49,6 +49,10 @@ const updateCalibrationCheckbox = () => {
   //updateCanvas()
 }
 
+const updateWordListShowCheckbox = () => {
+  store.wordListShow = !store.wordListShow
+}
+
 const updateCanvas = () => {
   if(!store.isPlaying){
     store.drawOnce()
@@ -129,6 +133,10 @@ const loadJSONFromFile = (event) => {
               <label for="calibration">Init</label>
               <input id="calibration" v-model="store.calibration" v-on:click="updateCalibrationCheckbox()" type="checkbox" />
             </fieldset>
+            <fieldset class="check-btn">
+              <label for="wordListShow">List</label>
+              <input id="wordListShow" v-model="store.wordListShow" v-on:click="updateWordListShowCheckbox()" type="checkbox" />
+            </fieldset>
         <!-- <br/>
           Step velocity
           <section>
@@ -142,9 +150,9 @@ const loadJSONFromFile = (event) => {
               <input v-model="store.randomOffset" type="number" /><span>ms</span>
             </section> -->
           </div>
-          <section class="wordlist">
+          <section v-if="store.wordListShow" class="wordlist">
             <UIWordItem v-for="(wordItem, index) in store.wordList && store.wordList[store.scene]" :key="index"
-            :on="index == store.wordIndex" :index=index />
+            :on="index == store.wordIndex" :index=index :item=store.wordList[store.scene][index] />
           </section>
         </div>
       </div>

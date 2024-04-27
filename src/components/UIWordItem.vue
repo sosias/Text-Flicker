@@ -11,45 +11,53 @@ defineProps({
   index: {
     type: Number,
     required: true
+  },
+  item: {
+    type: Object,
+    required: true
   }
 })
 </script>
 <template>
   <div class="row">
-    <span class="circle" :class="{ 'c-on': on }"></span>
-    <input :key=index v-if="!Array.isArray(store.wordList[store.scene][index].text)" type="text" v-model=store.wordList[store.scene][index].text />
-    <div v-else>
-      <input :key="index+'-'+indexSub" v-for="(a,indexSub) in store.wordList[store.scene][index].text" type="text" v-model=store.wordList[store.scene][index].text[indexSub] />
+    <div class="feedback-main">
+      <span class="feedback" :class="{ 'c-on': on }"></span>
+      <div v-if="Array.isArray(item.text)">
+        <div v-for="(sub,indexSub) in item.text" :key="index+'-'+indexSub">
+          {{ sub }}
+        </div>
+      </div>
+      <div v-else>
+        {{ item.text }}
+      </div>
     </div>
-    <input class="staying" type="text" v-model=store.wordList[store.scene][index].staying />
+    <div class="staying">
+      {{ item.staying }}
+    </div>
   </div>
 </template>
 
 <style scoped>
 .row{
   display: flex;
-  align-items: top;
+  align-items: flex-start;
+  justify-content: space-between;
   /* gap: 5px; */
   width: 100%;
 }
-
-input{
-  margin: 1px 5px;
-
-  &:last-child{
-    margin-right: 0px;
-  }
+.feedback-main{
+  display: flex;
+  gap: .5rem;
 }
-.circle {
+.feedback {
   display: block;
   background-color: #333;
-  height: 24px;
-  width: 100%;
-  max-width: 10px;
+  height: 1.5rem;
+  width: .5rem;
 }
 .c-on{
-    background-color: #999;
-  }
+  background-color: #999;
+}
 
 .staying{
   width: 3em

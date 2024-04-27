@@ -37,6 +37,7 @@ onMounted(() => {
   store.fittedText = false
   store.blur = false
   store.calibration = false
+  store.wordListShow = false
   const result = textFlickerMain(canvasOutlet.value);
   Object.assign(canvasOutlet.value, result);
 });
