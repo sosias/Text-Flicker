@@ -59,8 +59,8 @@
       }
 
       float wave(float x, float amp, float waveLength, float speed) {
-        return yScale * amp * sin(x *  2.0/waveLength + time * speed * 2.0/waveLength);
-        //return yScale * amp * sin(time * 2. + x * 2.0/waveLength);
+        //return yScale * amp * sin(x *  2.0/waveLength + time * speed * 2.0/waveLength);
+        return yScale * amp * sin(time * speed + x * 2.0/waveLength);
       }
 
       void main() {
@@ -73,34 +73,29 @@
         float bx = p.x * (1.0 - d);
 
         float waveLength = .5;
-        float speed = .3;
-        float ampRandR = 0.0 + 0.05* fract(sin(time*10.1));
+        float speed = 6.;
+        float ampRandR = 0.0 + 0.05* fract(sin(time*20.1));
         float ampRandG = 0.0 + 0.05* fract(sin(time*12.2));
         float ampRandB = 0.0 + 0.05* fract(sin(time*13.3));
 
-        float divergenceMod = (1.0 - divergence) * fract(sin(time*13.3));
-
-        float speedR = speed*remap(divergenceMod,1.0,.9999);
         float ampR = ampRandR + divergence + (1.0-divergence)*.9;
 
-        float r1 = wave(gx,ampR,waveLength,speedR * remap(divergence,1.1,1.0));
-        float r2 = wave(gx,ampR,waveLength + .4,speedR * remap(divergence,1.01,1.0) + .1);
-        float r3 = wave(gx,ampR-.5,waveLength + .2,speedR * -14.0);
+        float r1 = wave(gx,ampR,waveLength,speed);
+        float r2 = wave(gx,ampR,waveLength + .4,speed + .1);
+        float r3 = wave(gx,ampR-.5,waveLength + .2,speed * 2.0);
         float r = 0.05 / abs(p.y + r1 + r2 + r3*remap(divergence,1.0,.0));
 
-        float speedG = speed*remap(divergence,.999,1.0);
         float ampG = ampRandG + divergence + (1.0-divergence)*.5;
 
-        float g1 = wave(gx,ampG,waveLength,speedG * remap(divergence,1.01,1.0));
-        float g2 = wave(gx,ampG,waveLength + .4,speedG * (remap(divergence,1.1,1.)) + .1);
-        float g3 = wave(gx,ampG+.1,waveLength + .6,speedG * -2.3 );
+        float g1 = wave(gx,ampG,waveLength,speed);
+        float g2 = wave(gx,ampG,waveLength + .4,speed + .1);
+        float g3 = wave(gx,ampG+.1,waveLength + .6,speed * 2. );
         float g = 0.05 / abs(p.y + g1 + g2 + g3*remap(divergence,1.0,.0));
 
-        float speedB = speed*remap(divergence,.999,1.0);
         float ampB = ampRandB + divergence + (1.0-divergence)*.8;
 
-        float b1 = wave(gx,ampB,waveLength,speedB);
-        float b2 = wave(gx,ampB,waveLength + .4,speedB + .1);
+        float b1 = wave(gx,ampB,waveLength,speed);
+        float b2 = wave(gx,ampB,waveLength + .4,speed + .1);
         float b = 0.05 / abs(p.y + b1 + b2);
 
         
