@@ -38,6 +38,7 @@ onMounted(() => {
   store.blur = false
   store.calibration = false
   store.wordListShow = false
+  store.fx_divergence = 1.0
   const result = textFlickerMain(canvasOutlet.value);
   Object.assign(canvasOutlet.value, result);
 });

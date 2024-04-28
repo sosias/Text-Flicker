@@ -44,22 +44,65 @@
       precision highp float;
       uniform vec2 uResolution;
       uniform float time;
+      uniform float divergence;
       float xScale = 5.0;
       float yScale = 0.4;
       float distortion = 0.03;
 
+      float map(float value, float min1, float max1, float min2, float max2){
+        float perc = (value - min1) / (max1 - min1);
+        return perc * (max2 - min2) + min2;
+      }
+
+      float remap(float value, float min2, float max2){
+        return value * (max2 - min2) + min2;
+      }
+
+      float wave(float x, float amp, float waveLength, float speed) {
+        return yScale * amp * sin(x *  2.0/waveLength + time * speed * 2.0/waveLength);
+        //return yScale * amp * sin(time * 2. + x * 2.0/waveLength);
+      }
+
       void main() {
         vec2 p = (gl_FragCoord.xy * 2.0 - uResolution) / min(uResolution.x, uResolution.y);
         
-        float d = length(p) * distortion;
+        float d = 0.0;// length(p) * 1.0; //length(p) * distortion;
         
         float rx = p.x * (1.0 + d);
         float gx = p.x;
         float bx = p.x * (1.0 - d);
 
-        float r = 0.05 / abs(p.y + sin((rx + time) * xScale * fract(sin(time*0.2)*10.0)) * yScale);
-        float g = 0.05 / abs(p.y + sin((gx + time) * xScale * fract(sin(time*0.2)*10.0)) * yScale);
-        float b = 0.05 / abs(p.y + sin((bx + time) * xScale * fract(sin(time*0.2)*10.0)) * yScale);
+        float waveLength = .5;
+        float speed = .3;
+        float ampRandR = 0.0 + 0.05* fract(sin(time*10.1));
+        float ampRandG = 0.0 + 0.05* fract(sin(time*12.2));
+        float ampRandB = 0.0 + 0.05* fract(sin(time*13.3));
+
+        float divergenceMod = (1.0 - divergence) * fract(sin(time*13.3));
+
+        float speedR = speed*remap(divergenceMod,1.0,.9999);
+        float ampR = ampRandR + divergence + (1.0-divergence)*.9;
+
+        float r1 = wave(gx,ampR,waveLength,speedR * remap(divergence,1.1,1.0));
+        float r2 = wave(gx,ampR,waveLength + .4,speedR * remap(divergence,1.01,1.0) + .1);
+        float r3 = wave(gx,ampR-.5,waveLength + .2,speedR * -14.0);
+        float r = 0.05 / abs(p.y + r1 + r2 + r3*remap(divergence,1.0,.0));
+
+        float speedG = speed*remap(divergence,.999,1.0);
+        float ampG = ampRandG + divergence + (1.0-divergence)*.5;
+
+        float g1 = wave(gx,ampG,waveLength,speedG * remap(divergence,1.01,1.0));
+        float g2 = wave(gx,ampG,waveLength + .4,speedG * (remap(divergence,1.1,1.)) + .1);
+        float g3 = wave(gx,ampG+.1,waveLength + .6,speedG * -2.3 );
+        float g = 0.05 / abs(p.y + g1 + g2 + g3*remap(divergence,1.0,.0));
+
+        float speedB = speed*remap(divergence,.999,1.0);
+        float ampB = ampRandB + divergence + (1.0-divergence)*.8;
+
+        float b1 = wave(gx,ampB,waveLength,speedB);
+        float b2 = wave(gx,ampB,waveLength + .4,speedB + .1);
+        float b = 0.05 / abs(p.y + b1 + b2);
+
         
         gl_FragColor = vec4(r, g, b, 1.0);
       }
@@ -83,6 +126,7 @@
 
     // Set up the time uniform
     const timeLocation = gl.getUniformLocation(program, "time");
+    const divergenceLocation = gl.getUniformLocation(program, "divergence");
     resolutionLocation = gl.getUniformLocation(program, 'uResolution');
     
     // Draw the scene
@@ -96,8 +140,10 @@
       gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
       gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
       
-      gl.uniform2f(resolutionLocation, gl.canvas.width, gl.canvas.height);
+      gl.uniform2f(resolutionLocation, gl.canvas.width, gl.canvas.height/3);
       gl.uniform1f(timeLocation, time * 0.001); // Convert time to seconds
+      gl.uniform1f(divergenceLocation, store.fx_divergence);
+      //console.log(time, time * 0.001)
       
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       

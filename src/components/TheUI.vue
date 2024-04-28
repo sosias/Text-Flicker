@@ -137,6 +137,7 @@ const loadJSONFromFile = (event) => {
               <label for="wordListShow">List</label>
               <input id="wordListShow" v-model="store.wordListShow" v-on:click="updateWordListShowCheckbox()" type="checkbox" />
             </fieldset>
+            <input type="range" min="0.0" max="1.0" step="0.000001" v-model=store.fx_divergence />
         <!-- <br/>
           Step velocity
           <section>
