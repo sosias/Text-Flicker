@@ -1,5 +1,5 @@
 <script setup>
-  import { onMounted, onUnmounted, ref } from 'vue';
+  import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue';
   import { useUiStore } from '@/stores/ui'
 
   const store = useUiStore()
@@ -8,15 +8,26 @@
   let gl
   let resolutionLocation
   store.fxPlaying = true
-
+  let animationTimeBegin = -1
+  const animationDuration = 30 // seconds
+  
   onMounted(() => {
-     initWebGL()
-     window.addEventListener("resize", resize);
+    initWebGL()
+    window.addEventListener("resize", resize);
   })
 
   onUnmounted(() => {
     window.removeEventListener("resize", resize);
   })
+
+  const updateFxDivergence = (currentTime) => {
+    if(animationTimeBegin == -1) { animationTimeBegin = currentTime}
+    store.fx_divergence = (currentTime - animationTimeBegin) / animationDuration;
+    if(store.fx_divergence >= 1.0){
+      store.fx_sequencePlaying = false
+      animationTimeBegin = -1
+    }
+  }
 
   const resize = (e) => {
     canvas.value.width = window.innerWidth
@@ -143,6 +154,7 @@
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       
       if(store.fxPlaying){
+        if(store.fx_sequencePlaying){updateFxDivergence(time * 0.001)}
         requestAnimationFrame(drawScene);
       }
     }

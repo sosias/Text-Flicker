@@ -46,6 +46,9 @@ const updateBlurCheckbox = () => {
 
 const updateCalibrationCheckbox = () => {
   store.calibration = !store.calibration
+  if(store.calibration){
+    store.fx_sequencePlaying = true
+  }
   //updateCanvas()
 }
 

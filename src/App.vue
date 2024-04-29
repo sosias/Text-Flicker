@@ -39,6 +39,7 @@ onMounted(() => {
   store.calibration = false
   store.wordListShow = false
   store.fx_divergence = 0.0
+  store.fx_sequencePlaying = false
   const result = textFlickerMain(canvasOutlet.value);
   Object.assign(canvasOutlet.value, result);
 });
