@@ -92,22 +92,22 @@
         float ampR = ampRandR + divergence + (1.0-divergence)*.9;
 
         float r1 = wave(gx,ampR,waveLength,speed);
-        float r2 = wave(gx,ampR,waveLength + .4,speed + .1);
+        //float r2 = wave(gx,ampR,waveLength + .4,speed + .1);
         float r3 = wave(gx,ampR-.5,waveLength + .2,speed * 2.0);
-        float r = 0.05 / abs(p.y + r1 + r2 + r3*remap(divergence,1.0,.0));
+        float r = 0.01 / abs(p.y + r3 + r1*remap(divergence,1.0,.0));
 
         float ampG = ampRandG + divergence + (1.0-divergence)*.5;
 
         float g1 = wave(gx,ampG,waveLength,speed);
-        float g2 = wave(gx,ampG,waveLength + .4,speed + .1);
+        //float g2 = wave(gx,ampG,waveLength + .4,speed + .1);
         float g3 = wave(gx,ampG+.1,waveLength + .6,speed * 2. );
-        float g = 0.05 / abs(p.y + g1 + g2 + g3*remap(divergence,1.0,.0));
+        float g = 0.01 / abs(p.y + g1 + g3*remap(divergence,1.0,.0));
 
         float ampB = ampRandB + divergence + (1.0-divergence)*.8;
 
         float b1 = wave(gx,ampB,waveLength,speed);
-        float b2 = wave(gx,ampB,waveLength + .4,speed + .1);
-        float b = 0.05 / abs(p.y + b1 + b2);
+        //float b2 = wave(gx,ampB,waveLength + .4,speed + .1);
+        float b = 0.01 / abs(p.y + b1);
 
         
         gl_FragColor = vec4(r, g, b, 1.0);
