@@ -86,7 +86,8 @@ const sketch = (function() {
     window.onresize = windowResized
     calculateCurrentFontSize()
 
-    store.setLoopStatus = setLoopStatus
+    store.setWordlistLoopStatus = setLoopStatus
+    store.clear = clear
     store.drawOnce = draw
 
     window.requestAnimationFrame(mainLoop)

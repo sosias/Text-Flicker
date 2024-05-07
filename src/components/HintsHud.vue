@@ -11,7 +11,7 @@ const nextAndPlay = () => {
       store.changeScene(Number(store.scene) + 1)
     }
     firstClick = false
-    store.setLoopStatus(true)
+    store.setWordlistLoopStatus(true)
   }
 }
 

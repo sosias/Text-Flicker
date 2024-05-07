@@ -8,11 +8,30 @@ import stopIcon from "@/assets/imgs/stop.svg"
 const store = useUiStore()
 let closingTimeoutID;
 
+const LoopType = Object.freeze({
+    VIDEO:   Symbol("video"),
+    WORDLIST:  Symbol("wordlist"),
+})
+
+store.currentLoopType = LoopType.WORDLIST
+
 store.isPanelUIVisible = false
 
-const setLoopStatus = (start) => {
-  store.setLoopStatus(start)
+const videoLoop = (start) => {
+  store.setVideoLoopStatus(start)
+}
+
+const wordsLoop = (start) => {
+  store.setWordlistLoopStatus(start)
   store.wordIndex = 0
+}
+
+const setLoopStatus = (start) => {
+  if(store.currentLoopType == LoopType.WORDLIST){
+    wordsLoop(start)
+  } else if(store.currentLoopType == LoopType.VIDEO){
+    videoLoop(start)
+  }
   closingTimeoutID = setTimeout(() => { store.isMiniUIVisible = false }, 2000);
 }
 
@@ -21,9 +40,17 @@ onBeforeUnmount(() => {
 })
 
 const changeScene = (sceneIndex) => {
+  videoLoop(false)
+  store.currentLoopType = LoopType.WORDLIST
   store.scene = sceneIndex
   store.wordIndex = 0
   store.drawOnce()
+}
+
+const changeSceneVideo = () => {
+  wordsLoop(false)
+  store.clear()
+  store.currentLoopType = LoopType.VIDEO
 }
 
 store.changeScene = changeScene
@@ -40,8 +67,11 @@ store.changeScene = changeScene
         </section>
         <section>
           <div v-for="(scene, index) in store.wordList" :key="index">
-            <button class="button_ctrl" :disabled="index==store.scene" v-on:click="changeScene(index)" :index=index>{{index}}</button>
+            <button class="button_ctrl" :disabled="index==store.scene && store.currentLoopType==LoopType.WORDLIST" v-on:click="changeScene(index)" :index=index>{{index}}</button>
           </div>
+        </section>
+        <section>
+          <button class="button_ctrl" :disabled="store.currentLoopType==LoopType.VIDEO" v-on:click="changeSceneVideo()">I</button>
         </section>
       </div>
       <TheUI />

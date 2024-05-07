@@ -5,6 +5,7 @@ import { onMounted, ref } from 'vue';
 import MiniUI from './components/MiniUI.vue'
 import HintsHud from './components/HintsHud.vue'
 import EffectCanvas from './components/EffectCanvas.vue'
+import VideoScene from './components/VideoScene.vue'
 
 const store = useUiStore();
 store.isMiniUIVisible = false;
@@ -43,10 +44,32 @@ onMounted(() => {
   const result = textFlickerMain(canvasOutlet.value);
   Object.assign(canvasOutlet.value, result);
 });
+
+const dbName = "textFlickerDB";
+const request = indexedDB.open(dbName, 1);
+request.onerror = (event) => {
+  console.error('cannot open local db')
+};
+request.onupgradeneeded = (event) => {
+  const db = event.target.result;
+
+  const objectStore = db.createObjectStore("videos", { keyPath: "id" });
+  //objectStore.createIndex("data", "data", { unique: false });
+
+  objectStore.transaction.oncomplete = (event) => {
+
+    const videoObjectStore = db
+      .transaction("videos", "readwrite")
+      .objectStore("videos");
+
+    videoObjectStore.add({id:'1',data:'aaa'});
+  };
+};
 </script>
 
 <template>
   <HintsHud />
+  <VideoScene />
   <EffectCanvas v-if="store.calibration" />
   <div id="canvas" ref="canvasOutlet" v-on:click="store.isMiniUIVisible=!store.isMiniUIVisible"></div>
   <MiniUI />

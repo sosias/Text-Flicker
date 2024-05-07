@@ -94,6 +94,59 @@ const loadJSONFromFile = (event) => {
   }
 }
 
+const fileVideoInput = ref("fileVideoInput");
+const importVideo = () => {
+  fileVideoInput.value.click();
+}
+
+const loadVideoFromFile = (event) => {
+  const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          let fileContent = e.target.result
+          saveVideoToDBEntry("1",fileContent)
+        } catch (error) {
+          console.error('Error getting video:', error);
+        }
+      }
+    reader.readAsDataURL(file)
+  }
+}
+
+const saveVideoToDBEntry = (idEntry, data) => {
+  let db;
+  const requestDB = indexedDB.open("textFlickerDB");
+  requestDB.onerror = (event) => {
+    console.error("Use of IndexedDB isn't allowed");
+  };
+  requestDB.onsuccess = (event) => {
+    db = event.target.result;
+    const objectStore = db
+      .transaction(["videos"], "readwrite")
+      .objectStore("videos");
+    const requestObj = objectStore.get(idEntry);
+    requestObj.onerror = (event) => {
+      // Handle errors!
+    };
+    requestObj.onsuccess = (event) => {
+    
+      const entry = event.target.result;
+      entry.data = data;
+    
+      const requestUpdate = objectStore.put(entry);
+      requestUpdate.onerror = (event) => {
+        // Do something with the error
+      };
+      requestUpdate.onsuccess = (event) => {
+        // Success - the data is updated!
+      };
+    };
+  };
+}
+
+
 </script>
 
 <template>
@@ -107,17 +160,21 @@ const loadJSONFromFile = (event) => {
           <br/> -->
           <div class="ui_panel__section">
             <fieldset>
-              <label>Device</label>
-              <div class="input_group">
-                <button class="button_ctrl button_ctrl-small" disabled>{{ store.device + 1 }}</button>
-              </div>
-            </fieldset>
-            <fieldset>
               <input type="file" ref="fileInput" v-on:change="loadJSONFromFile" hidden />
               <button class="button" v-on:click="importJson()">Import json</button>
             </fieldset>
             <fieldset>
               <button class="button" v-on:click="clearJson()">Clear json</button>
+            </fieldset>
+            <fieldset>
+              <input type="file" ref="fileVideoInput" v-on:change="loadVideoFromFile" hidden />
+              <button class="button" v-on:click="importVideo()">Import video</button>
+            </fieldset>
+            <fieldset>
+              <label>Device</label>
+              <div class="input_group">
+                <button class="button_ctrl button_ctrl-small" disabled>{{ store.device + 1 }}</button>
+              </div>
             </fieldset>
             <!-- <section>
               <button class="button" v-on:click="console.log(JSON.stringify(store.wordList))">Print json</button>
@@ -185,11 +242,11 @@ $sizeHalf: 47.5px;
   padding: 20px;
   width: 100%;
   max-width: 310.5px;
-  padding-top: 250px;
+  padding-top: 350px;
 }
 .ui_panel{
   display: flex;
-  height: calc(100vh - 290px);
+  height: calc(100vh - 390px);
   flex-direction: column;
 
   &__section{
