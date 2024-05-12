@@ -11,7 +11,7 @@ const sketch = (function() {
     if (lastTimeIncremented + millisecondStep < Date.now()) {
       lastTimeIncremented = Date.now()
       store.wordIndex++
-      if (store.wordIndex >= Object.keys(store.wordList[store.scene]).length) {
+      if (store.wordIndex >= Object.keys(store.wordList[store.scene].data).length) {
         store.wordIndex = 0
         setLoopStatus(false)
         clear()
@@ -98,9 +98,9 @@ const sketch = (function() {
       if(store.wordList){
         draw()
 
-        let stepMillisecondsMod = store.wordList[store.scene][store.wordIndex].staying == ''
+        let stepMillisecondsMod = store.wordList[store.scene].data[store.wordIndex].staying == ''
         ? store.stepMilliseconds
-        : store.stepMilliseconds * store.wordList[store.scene][store.wordIndex].staying
+        : store.stepMilliseconds * store.wordList[store.scene].data[store.wordIndex].staying
         incrementIndexIfTime(stepMillisecondsMod)
       }
 
@@ -115,10 +115,10 @@ const sketch = (function() {
     const color = 'white'
     if(store.blur){
       context.filter = 'drop-shadow(0 0 50px #fff)';
-      drawWordsPolymorph(store.wordList[store.scene][store.wordIndex].text, context.canvas.clientWidth / 2, context.canvas.clientHeight / 2, color, fitFontSize, store.fittedText)
+      drawWordsPolymorph(store.wordList[store.scene].data[store.wordIndex].text, context.canvas.clientWidth / 2, context.canvas.clientHeight / 2, color, fitFontSize, store.fittedText)
       context.filter = 'blur(0px)';
     }
-    drawWordsPolymorph(store.wordList[store.scene][store.wordIndex].text, context.canvas.clientWidth / 2, context.canvas.clientHeight / 2, color, fitFontSize, store.fittedText)
+    drawWordsPolymorph(store.wordList[store.scene].data[store.wordIndex].text, context.canvas.clientWidth / 2, context.canvas.clientHeight / 2, color, fitFontSize, store.fittedText)
   }
 
   const windowResized = (event) => {

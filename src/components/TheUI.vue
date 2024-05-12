@@ -212,8 +212,8 @@ const saveVideoToDBEntry = (idEntry, data) => {
             </section> -->
           </div>
           <section v-if="store.wordListShow" class="wordlist">
-            <UIWordItem v-for="(wordItem, index) in store.wordList && store.wordList[store.scene]" :key="index"
-            :on="index == store.wordIndex" :index=index :item=store.wordList[store.scene][index] />
+            <UIWordItem v-for="(wordItem, index) in store.wordList && store.wordList[store.scene].data" :key="index"
+            :on="index == store.wordIndex" :index=index :item=store.wordList[store.scene].data[index] />
           </section>
         </div>
       </div>
