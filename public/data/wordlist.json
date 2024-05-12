@@ -3,16 +3,16 @@
       {
         "sceneType": "wordList",
         "data": [
-          { "text": "1", "staying": "1000" },
-          { "text": "2", "staying": "886" },
-          { "text": "3", "staying": "771" },
-          { "text": "4", "staying": "657" },
-          { "text": "5", "staying": "543" },
-          { "text": "6", "staying": "429" },
-          { "text": "7", "staying": "314" },
-          { "text": "8", "staying": "200" },
-          { "text": "9", "staying": "197" },
-          { "text": "10", "staying": "194" }
+          { "text": "1", "staying": "1000", "color": "#4695d2"},
+          { "text": "2", "staying": "886", "color": "#4695d2"},
+          { "text": "3", "staying": "771", "color": "#4695d2"},
+          { "text": "4", "staying": "657", "color": "#4695d2"},
+          { "text": "5", "staying": "543", "color": "#4695d2"},
+          { "text": "6", "staying": "429", "color": "#4695d2"},
+          { "text": "7", "staying": "314", "color": "#4695d2"},
+          { "text": "8", "staying": "200", "color": "#4695d2"},
+          { "text": "9", "staying": "197", "color": "#4695d2"},
+          { "text": "10", "staying": "194", "color": "#4695d2"}
         ]
       },
       {
@@ -2272,16 +2272,16 @@
       {
         "sceneType": "wordList",
         "data": [
-          { "text": "1", "staying": "1000" },
-          { "text": "2", "staying": "886" },
-          { "text": "3", "staying": "771" },
-          { "text": "4", "staying": "657" },
-          { "text": "5", "staying": "543" },
-          { "text": "6", "staying": "429" },
-          { "text": "7", "staying": "314" },
-          { "text": "8", "staying": "200" },
-          { "text": "9", "staying": "197" },
-          { "text": "10", "staying": "194" }
+          { "text": "1", "staying": "1000", "color": "#4695d2"},
+          { "text": "2", "staying": "886", "color": "#4695d2"},
+          { "text": "3", "staying": "771", "color": "#4695d2"},
+          { "text": "4", "staying": "657", "color": "#4695d2"},
+          { "text": "5", "staying": "543", "color": "#4695d2"},
+          { "text": "6", "staying": "429", "color": "#4695d2"},
+          { "text": "7", "staying": "314", "color": "#4695d2"},
+          { "text": "8", "staying": "200", "color": "#4695d2"},
+          { "text": "9", "staying": "197", "color": "#4695d2"},
+          { "text": "10", "staying": "194", "color": "#4695d2"}
         ]
       },
       { 

@@ -112,7 +112,7 @@ const sketch = (function() {
   const draw = () => {
     context.clearRect(0, 0, context.canvas.width, context.canvas.height)
 
-    const color = 'white'
+    const color = store.wordList[store.scene].data[store.wordIndex].color ?? 'white'
     if(store.blur){
       context.filter = 'drop-shadow(0 0 50px #fff)';
       drawWordsPolymorph(store.wordList[store.scene].data[store.wordIndex].text, context.canvas.clientWidth / 2, context.canvas.clientHeight / 2, color, fitFontSize, store.fittedText)
