@@ -4,6 +4,7 @@ import { onBeforeUnmount } from 'vue';
 import TheUI from "./TheUI.vue";
 import playIcon from "@/assets/imgs/play.svg"
 import stopIcon from "@/assets/imgs/stop.svg"
+import { EffectType } from '../lib/effectCanvasHelper'
 
 const store = useUiStore()
 let closingTimeoutID;
@@ -11,8 +12,10 @@ let closingTimeoutID;
 const LoopType = Object.freeze({
     VIDEO:   Symbol("video"),
     WORDLIST:  Symbol("wordlist"),
+    EFFECT:  Symbol("effect"),
 })
 
+store.currentEffectType = EffectType.WAVE
 store.currentLoopType = LoopType.WORDLIST
 
 store.isPanelUIVisible = false
@@ -53,6 +56,22 @@ const changeSceneVideo = () => {
   store.currentLoopType = LoopType.VIDEO
 }
 
+const changeSceneEffect = (effectType) => {
+  store.currentEffectType = effectType
+  wordsLoop(false)
+  store.clear()
+  store.currentLoopType = LoopType.EFFECT
+  store.calibration = true
+  store.fx_sequencePlaying = true
+}
+
+const resetAll = () => {
+  wordsLoop(false)
+  store.clear()
+  store.calibration = false
+  store.fx_sequencePlaying = false
+}
+
 store.changeScene = changeScene
 </script>
 
@@ -71,7 +90,9 @@ store.changeScene = changeScene
           </div>
         </section>
         <section>
-          <button class="button_ctrl" :disabled="store.currentLoopType==LoopType.VIDEO" v-on:click="changeSceneVideo()">I</button>
+          <button class="button_ctrl" :disabled="store.currentLoopType==LoopType.VIDEO" v-on:click="resetAll();changeSceneVideo()">I</button>
+          <button class="button_ctrl" :disabled="store.currentLoopType==LoopType.EFFECT && store.currentEffectType==EffectType.WAVE" v-on:click="changeSceneEffect(EffectType.WAVE)">II</button>
+          <button class="button_ctrl" :disabled="store.currentLoopType==LoopType.EFFECT && store.currentEffectType==EffectType.CIRCLE" v-on:click="changeSceneEffect(EffectType.CIRCLE)">III</button>
         </section>
       </div>
       <TheUI />
