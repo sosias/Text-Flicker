@@ -11,7 +11,7 @@ import { onMounted, onBeforeUnmount } from 'vue';
 const selectDevice = (deviceIndex) => {
   store.device = deviceIndex
   store.wordIndex = 0
-  store.wordList = store.wholeData[deviceIndex]
+  store.wordList = store.wholeData.data[deviceIndex]
 }
 
 onMounted(() => {
@@ -64,7 +64,7 @@ const updateCanvas = () => {
 
 const setWholeData = (data) => {
   store.wholeData = data
-  store.wordList  = store.wholeData[0]
+  store.wordList  = store.wholeData.data[0]
 }
 
 const clearJson = () => {
@@ -198,6 +198,7 @@ const saveVideoToDBEntry = (idEntry, data) => {
               <input id="wordListShow" v-model="store.wordListShow" v-on:click="updateWordListShowCheckbox()" type="checkbox" />
             </fieldset>
             <input type="range" min="0.0" max="1.0" step="0.000001" v-model=store.fx_divergence />
+            <div>v.{{store.wholeData.version}}</div>
         <!-- <br/>
           Step velocity
           <section>
