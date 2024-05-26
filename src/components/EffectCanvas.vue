@@ -195,7 +195,8 @@
         vec3 c1 = color(shade(uv, t)) * ff;
         vec3 c2 = color(shade(uv2, t)) * (1.0 - ff);
         
-        gl_FragColor = vec4(c1 + c2, 1.0);
+        float brightness = 0.5;
+        gl_FragColor = vec4((c1 + c2)*brightness, 1.0);
     }
     `;
 
