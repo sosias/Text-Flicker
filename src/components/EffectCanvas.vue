@@ -138,7 +138,7 @@
     }
 
     vec3 ramp(float t) {
-      return t <= .5 ? vec3( 1. - t * 1.4, .2, 1.05 ) / t : vec3( .3 * (1. - t) * 2., .2, 1.05 ) / t;
+      return t <= .5 ? vec3( 1. - t * 1.4, .1, 0.2 ) / t : vec3( .3 * (1. - t) * 2., .1, 0.2 ) / t;
     }
     vec2 polarMap(vec2 uv, float shift, float inner) {
 
@@ -177,10 +177,11 @@
     }
 
     void main( void ) {
-        float m1 = 40.0 * 5.0 / uResolutionMod.x;
+        float m1 = 400.0 * 5.0 / uResolutionMod.x;
         
         float t = time;
         vec2 uv = gl_FragCoord.xy / uResolutionMod.y;
+        uv.y = uv.y - .5; // translate circle vertically
         float ff = 1.0 - uv.y;
         uv.x -= (uResolutionMod.x / uResolutionMod.y - 1.0) / 2.0;
         vec2 uv2 = uv;
