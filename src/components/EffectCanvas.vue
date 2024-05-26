@@ -116,7 +116,10 @@
       }
     `;
 
+    ///////////////////////////
     // Fragment shader, cirlce
+    ///////////////////////////
+
     const fragmentShaderCircleSource = `
     precision highp float;
     uniform float time; 
@@ -138,7 +141,7 @@
     }
 
     vec3 ramp(float t) {
-      return t <= .5 ? vec3( 1. - t * 1.4, .1, 0.2 ) / t : vec3( .3 * (1. - t) * 2., .1, 0.2 ) / t;
+      return t <= .5 ? vec3( .05, .0, 1. - t * 1.4 ) / t : vec3( .05, .0, .3 * (1. - t) * 2. ) / t;
     }
     vec2 polarMap(vec2 uv, float shift, float inner) {
 
