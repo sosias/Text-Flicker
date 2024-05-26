@@ -113,18 +113,17 @@ store.changeScene = changeScene
   position: absolute;
   right: 0;
   margin: 10px;
-  width: 100%;
-  max-width: 400px;
+  max-width: 435px;
+  border: 1px #444 solid;
+  background: #000;
+  border-radius: 5px;
+  max-height: calc(100vh - 30px);
 }
 
 #miniUI{
-  position: absolute;
-  border-radius: 5px;
-  top: 0;
-  right: 0;
+  position: relative;
   padding: 10px;
   padding-top: 0px;
-  margin: 10px;
   z-index: 10;
 }
 

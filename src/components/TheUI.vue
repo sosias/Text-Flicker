@@ -233,21 +233,12 @@ $sizeHalf: 47.5px;
 }
 
 .container_settings{
-  position: absolute;
-  background-color: black;
   color: white;
-  border-radius: 5px;
-  border: solid 1px #999;
-  right: 0;
-  top: 0;
-  padding: 20px;
-  width: 100%;
-  max-width: 310.5px;
-  padding-top: 350px;
+  padding-left: 10px;
+  padding-top: 10px;
 }
 .ui_panel{
   display: flex;
-  height: calc(100vh - 390px);
   flex-direction: column;
 
   &__section{
