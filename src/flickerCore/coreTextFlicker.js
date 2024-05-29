@@ -110,7 +110,10 @@ const sketch = (function() {
   }
 
   const draw = () => {
-    context.clearRect(0, 0, context.canvas.width, context.canvas.height)
+    // context.clearRect(0, 0, context.canvas.width, context.canvas.height)
+    context.fillStyle = '#0002';
+    context.rect(0, 0, context.canvas.width, context.canvas.height);
+    context.fill();
 
     const color = store.wordList[store.scene].data[store.wordIndex].color ?? 'white'
     if(store.blur){
