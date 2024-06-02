@@ -20,6 +20,16 @@ const sketch = (function() {
     }
     return false
   }
+  let lastDraw = Date.now()
+  const drawFps = () => {
+    context.fillStyle = "#fff";
+    context.font = `40px 'din-bold'`;
+    context.textAlign = 'center';
+    context.textBaseline = 'middle';
+    let now = Date.now()
+    context.fillText(Math.ceil(1000/(now-lastDraw)), 100, 100);
+    lastDraw = now
+  }
 
   const getFontSizeOfFittedText = (text, fontsize, fitX, fitY) => {
     context.font = `${fontsize}px 'din-bold'`;
@@ -105,15 +115,17 @@ const sketch = (function() {
       }
 
       if(running){
+        drawFps()
         window.requestAnimationFrame(mainLoop)
       }
   }
 
   const draw = () => {
     // context.clearRect(0, 0, context.canvas.width, context.canvas.height)
-    context.fillStyle = '#0002';
-    context.rect(0, 0, context.canvas.width, context.canvas.height);
-    context.fill();
+    context.beginPath()
+    context.fillStyle = '#0002'
+    context.rect(0, 0, context.canvas.width, context.canvas.height)
+    context.fill()
 
     const color = store.wordList[store.scene].data[store.wordIndex].color ?? 'white'
     if(store.blur){
