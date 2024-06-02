@@ -124,7 +124,8 @@ const sketch = (function() {
     // context.clearRect(0, 0, context.canvas.width, context.canvas.height)
     context.beginPath()
     context.fillStyle = '#0002'
-    context.rect(0, 0, context.canvas.width, context.canvas.height)
+    const multiWord = Array.isArray(store.wordList[store.scene].data[store.wordIndex].text)
+    context.rect(0, 0, context.canvas.width, context.canvas.height*(multiWord ? 1 : 2/3))
     context.fill()
 
     const color = store.wordList[store.scene].data[store.wordIndex].color ?? 'white'

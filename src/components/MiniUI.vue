@@ -43,6 +43,7 @@ onBeforeUnmount(() => {
 })
 
 const changeScene = (sceneIndex) => {
+  store.clear()
   videoLoop(false)
   store.currentLoopType = LoopType.WORDLIST
   store.scene = sceneIndex
