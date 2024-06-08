@@ -4,5 +4,12 @@
     "start_url": "/#a2",
     "display": "fullscreen",
     "background_color": "#000",
-    "description": "Flicker flicker flicker"
+    "description": "Flicker flicker flicker",
+    "icons": [
+        {
+          "src": "icons/512.png",
+          "type": "image/png",
+          "sizes": "512x512"
+        }
+      ]
 }
