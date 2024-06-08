@@ -1,7 +1,7 @@
 // the cache version gets updated every time there is a new deployment
 const CACHE_VERSION = 10;
 const CURRENT_CACHE = `main-${CACHE_VERSION}`;
-const BASE_PATH = '/Text-Flicker'
+const BASE_PATH = '' //'/Text-Flicker'
 
 // these are the routes we are going to cache for offline support
 const cacheFiles = [BASE_PATH+'/', BASE_PATH+'/data/', BASE_PATH+'/assets/'];
