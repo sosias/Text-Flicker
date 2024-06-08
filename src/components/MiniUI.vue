@@ -73,6 +73,14 @@ const resetAll = () => {
   store.fx_sequencePlaying = false
 }
 
+const fullScreen = () => {
+  let element = document.documentElement;
+  if (element.requestFullscreen) element.requestFullscreen();
+  else if (element.mozRequestFullScreen) element.mozRequestFullScreen();
+  else if (element.webkitRequestFullscreen) element.webkitRequestFullscreen();
+  else if (element.msRequestFullscreen) element.msRequestFullscreen();
+}
+
 store.changeScene = changeScene
 </script>
 
@@ -84,6 +92,7 @@ store.changeScene = changeScene
           <button class="button_ctrl" :disabled="store.isPlaying === true" v-on:click="setLoopStatus(true)"><img alt="play" :src=playIcon /></button>
           <button class="button_ctrl" :disabled="store.isPlaying === false" v-on:click="setLoopStatus(false)"><img alt="stop" :src=stopIcon /></button>
           <button class="button_ctrl" v-on:click="store.isPanelUIVisible=!store.isPanelUIVisible">*</button>
+          <button class="button_ctrl" v-on:click="fullScreen">[ ]</button>
         </section>
         <section>
           <div v-for="(scene, index) in store.wordList" :key="index">
