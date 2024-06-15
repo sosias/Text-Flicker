@@ -115,7 +115,7 @@ const sketch = (function() {
       }
 
       if(running){
-        drawFps()
+        //drawFps()
         window.requestAnimationFrame(mainLoop)
       }
   }
