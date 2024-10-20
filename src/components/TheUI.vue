@@ -181,7 +181,7 @@ const saveVideoToDBEntry = (idEntry, data) => {
             </section>
             <br /> -->
             <!-- Options -->
-            <fieldset class="check-btn">
+            <!-- <fieldset class="check-btn">
               <label for="fit">Fit text</label>
               <input id="fit" v-model="store.fittedText" v-on:click="updateFittedCheckbox()" type="checkbox" />
             </fieldset>
@@ -192,13 +192,13 @@ const saveVideoToDBEntry = (idEntry, data) => {
             <fieldset class="check-btn">
               <label for="calibration">Init</label>
               <input id="calibration" v-model="store.calibration" v-on:click="updateCalibrationCheckbox()" type="checkbox" />
-            </fieldset>
+            </fieldset> -->
             <fieldset class="check-btn">
               <label for="wordListShow">List</label>
               <input id="wordListShow" v-model="store.wordListShow" v-on:click="updateWordListShowCheckbox()" type="checkbox" />
             </fieldset>
             <input type="range" min="0.0" max="1.0" step="0.000001" v-model=store.fx_divergence />
-            <div>v.{{store.wholeData.version}}</div>
+            <div class="version">v.{{store.wholeData.version}}</div>
         <!-- <br/>
           Step velocity
           <section>
@@ -275,6 +275,17 @@ fieldset {
   max-height: 100%;
   scrollbar-width: thin;
   scrollbar-color: #333 #999;
+}
+
+input[type=range]{
+  accent-color: #999;
+  height: $sizeHalf;
+  width: $sizeHalf*2;
+}
+
+.version{
+  margin-left: auto;
+  margin-right: 10px;
 }
 
 fieldset.check-btn{
