@@ -14,16 +14,17 @@ const cachedData = localStorage.getItem("wholeData");
 
 const canvasOutlet = ref("canvasOutlet");
 
-const fetchWords = async() => {
-  try {
-    const response = await fetch(import.meta.env.BASE_URL + 'data/wordlist.json');
-    store.wholeData = await response.json();
-    store.scenes = store.wholeData.scenes
-    store.wordList = store.wholeData.data[0]
-    store.originalData = store.wholeData
-  } catch (error) {
-    console.error(error);
-  }
+const fetchWords = () => {
+    fetch(import.meta.env.BASE_URL + 'data/wordlist.json').then((response)=>{
+      return response.json()
+    }).then((data)=>{
+      store.wholeData = data
+      store.scenes = store.wholeData.scenes
+      store.wordList = store.wholeData.data[0]
+      store.originalData = store.wholeData
+    }).catch((error)=>{
+      console.error(error);
+    })
 }
 
 onMounted(() => {
@@ -40,6 +41,7 @@ onMounted(() => {
   store.isPlaying = false
   store.fittedText = false
   store.blur = false
+  store.motionBlur = false
   store.calibration = false
   store.wordListShow = false
   store.fx_divergence = 0.0

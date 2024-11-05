@@ -1,6 +1,6 @@
 <script setup>
 import { useUiStore } from '@/stores/ui'
-import { onBeforeUnmount } from 'vue';
+import { onBeforeUnmount, onMounted } from 'vue';
 import TheUI from "./TheUI.vue";
 import playIcon from "@/assets/imgs/play.svg"
 import stopIcon from "@/assets/imgs/stop.svg"
@@ -35,6 +35,7 @@ const setLoopStatus = (start) => {
   } else if(store.currentLoopType == LoopType.VIDEO){
     videoLoop(start)
   }
+  store.fx_sequencePlaying = start
   closingTimeoutID = setTimeout(() => { store.isMiniUIVisible = false }, 2000);
 }
 
@@ -42,22 +43,37 @@ onBeforeUnmount(() => {
   clearTimeout(closingTimeoutID)
 })
 
+const setSceneWordList = (sceneIndex) => {
+  changeSceneWords(store.scenes[sceneIndex].pos)
+}
+
+const setSceneVideo = (sceneIndex) => {
+  changeSceneVideo()
+}
+
+const effectType = {
+  "circle": EffectType.CIRCLE,
+  "wave": EffectType.WAVE,
+}
+
+const setSceneEffect = (sceneIndex) => {
+  changeSceneEffect(effectType[store.scenes[sceneIndex].type])
+}
+
+const sceneStarter = {
+  "wordList": setSceneWordList,
+  "video": setSceneVideo,
+  "fx": setSceneEffect,
+}
+
 const changeScene = (sceneIndex) => {
+  resetAll()
   store.currentScene = sceneIndex
-  if(store.scenes[sceneIndex].sceneType == "wordList"){
-    changeSceneWords(store.scenes[sceneIndex].pos)
-  } else if(store.scenes[sceneIndex].sceneType == "video"){
-    resetAll()
-    changeSceneVideo()
-  } else if(store.scenes[sceneIndex].sceneType == "fx"){
-    let effectType
-    if(store.scenes[sceneIndex].type == "circle"){
-      effectType = EffectType.CIRCLE
-    } else if(store.scenes[sceneIndex].type == "wave"){
-      effectType = EffectType.WAVE
-    }
-    changeSceneEffect(effectType)
+  store.motionBlur = (store.scenes[sceneIndex].motionBlur === false) ? false : true
+  if(store.scenes[sceneIndex].layer && store.scenes[sceneIndex].layer.sceneType == "fx"){
+    changeSceneEffect(effectType[store.scenes[sceneIndex].layer.type])
   }
+  sceneStarter[store.scenes[sceneIndex].sceneType](sceneIndex);
 }
 
 const changeSceneWords = (sceneIndex) => {
@@ -79,9 +95,10 @@ const changeSceneEffect = (effectType) => {
   store.currentEffectType = effectType
   wordsLoop(false)
   store.clear()
-  store.currentLoopType = LoopType.EFFECT
+  // store.currentLoopType = LoopType.EFFECT
   store.calibration = true
-  store.fx_sequencePlaying = true
+  store.fx_sequencePlaying = false
+  store.fx_divergence = 0.0
 }
 
 const resetAll = () => {
@@ -120,19 +137,19 @@ store.changeScene = changeScene
               :index=index>{{index}}</button>
           </div>
         </section>
-        <section>
+        <!-- <section>
           <div v-for="(scene, index) in store.wordList" :key="index">
             <button class="button_ctrl" 
               :disabled="index==store.wordScene && store.currentLoopType==LoopType.WORDLIST"
               v-on:click="changeSceneWords(index)" 
               :index=index>{{index}}</button>
           </div>
-        </section>
-        <section>
+        </section> -->
+        <!-- <section>
           <button class="button_ctrl" :disabled="store.currentLoopType==LoopType.VIDEO" v-on:click="resetAll();changeSceneVideo()">I</button>
           <button class="button_ctrl" :disabled="store.currentLoopType==LoopType.EFFECT && store.currentEffectType==EffectType.WAVE" v-on:click="changeSceneEffect(EffectType.WAVE)">II</button>
           <button class="button_ctrl" :disabled="store.currentLoopType==LoopType.EFFECT && store.currentEffectType==EffectType.CIRCLE" v-on:click="changeSceneEffect(EffectType.CIRCLE)">III</button>
-        </section>
+        </section> -->
       </div>
       <TheUI />
     </div>

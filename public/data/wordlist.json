@@ -1,8 +1,8 @@
 {
   "version": "22",
   "scenes": [
-    {"sceneType": "wordList", "pos": 0},
-    {"sceneType": "wordList", "pos": 1},
+    {"sceneType": "wordList", "pos": 0, "motionBlur": false},
+    {"sceneType": "wordList", "pos": 1, "layer": {"sceneType": "fx", "type": "wave"}},
     {"sceneType": "wordList", "pos": 2},
     {"sceneType": "wordList", "pos": 3},
     {"sceneType": "video"},

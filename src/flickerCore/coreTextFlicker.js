@@ -125,7 +125,7 @@ const sketch = (function() {
   const draw = () => {
     // context.clearRect(0, 0, context.canvas.width, context.canvas.height)
     context.beginPath()
-    context.fillStyle = '#0002'
+    context.fillStyle = store.motionBlur ? '#0002' : '#000f'
     const multiWord = Array.isArray(store.wordList[store.wordScene].data[store.wordIndex].text)
     context.rect(0, 0, context.canvas.width, context.canvas.height*(multiWord ? 1 : 2/3))
     context.fill()
