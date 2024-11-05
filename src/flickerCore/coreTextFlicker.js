@@ -3,18 +3,26 @@ import { useUiStore } from '@/stores/ui'
 const sketch = (function() {
   let context
   let store
-  let lastTimeIncremented = 0
+  let lastIncrementedMsCheckpoint = 0
   let running = false
   let fitFontSize = 100
 
-  const incrementIndexIfTime = (millisecondStep) => {
-    if (lastTimeIncremented + millisecondStep < Date.now()) {
-      lastTimeIncremented = Date.now()
+  const getCurrentMillisecondStep = () => {
+    return store.wordList[store.wordScene].data[store.wordIndex].staying == '' ?
+      store.stepMilliseconds :
+      store.stepMilliseconds * store.wordList[store.wordScene].data[store.wordIndex].staying
+  }
+
+  const incrementIndexIfTime = () => {
+    let nextMillisecondCheckpoint = lastIncrementedMsCheckpoint + getCurrentMillisecondStep()
+    if (nextMillisecondCheckpoint < Date.now()) {
+      lastIncrementedMsCheckpoint = nextMillisecondCheckpoint
       store.wordIndex++
       if (store.wordIndex >= Object.keys(store.wordList[store.wordScene].data).length) {
         store.wordIndex = 0
         setLoopStatus(false)
         clear()
+        return false
       }
       return true
     }
@@ -72,7 +80,7 @@ const sketch = (function() {
   const setLoopStatus = function (start) {
     if(start){
       running = true
-      lastTimeIncremented = Date.now()
+      lastIncrementedMsCheckpoint = Date.now()
       mainLoop()
     }else{
       running = false
@@ -88,7 +96,7 @@ const sketch = (function() {
     store = useUiStore()
     store.wordScene = 0
     store.wordIndex = 0
-    lastTimeIncremented = Date.now()
+    lastIncrementedMsCheckpoint = Date.now()
 
     let canvas = document.createElement('canvas')
     node.appendChild(canvas)
@@ -110,10 +118,7 @@ const sketch = (function() {
       if(store.wordList){
         draw()
 
-        let stepMillisecondsMod = store.wordList[store.wordScene].data[store.wordIndex].staying == ''
-        ? store.stepMilliseconds
-        : store.stepMilliseconds * store.wordList[store.wordScene].data[store.wordIndex].staying
-        incrementIndexIfTime(stepMillisecondsMod)
+        while(incrementIndexIfTime()){}
       }
 
       if(running){
