@@ -43,6 +43,24 @@ onBeforeUnmount(() => {
 })
 
 const changeScene = (sceneIndex) => {
+  store.currentScene = sceneIndex
+  if(store.scenes[sceneIndex].sceneType == "wordList"){
+    changeSceneWords(store.scenes[sceneIndex].pos)
+  } else if(store.scenes[sceneIndex].sceneType == "video"){
+    resetAll()
+    changeSceneVideo()
+  } else if(store.scenes[sceneIndex].sceneType == "fx"){
+    let effectType
+    if(store.scenes[sceneIndex].type == "circle"){
+      effectType = EffectType.CIRCLE
+    } else if(store.scenes[sceneIndex].type == "wave"){
+      effectType = EffectType.WAVE
+    }
+    changeSceneEffect(effectType)
+  }
+}
+
+const changeSceneWords = (sceneIndex) => {
   store.clear()
   videoLoop(false)
   store.currentLoopType = LoopType.WORDLIST
@@ -95,10 +113,18 @@ store.changeScene = changeScene
           <button class="button_ctrl" v-on:click="fullScreen">[ ]</button>
         </section>
         <section>
+          <div v-for="(scene, index) in store.scenes" :key="index">
+            <button class="button_ctrl" 
+              :disabled="index==store.currentScene"
+              v-on:click="changeScene(index)"
+              :index=index>{{index}}</button>
+          </div>
+        </section>
+        <section>
           <div v-for="(scene, index) in store.wordList" :key="index">
             <button class="button_ctrl" 
               :disabled="index==store.wordScene && store.currentLoopType==LoopType.WORDLIST"
-              v-on:click="changeScene(index)" 
+              v-on:click="changeSceneWords(index)" 
               :index=index>{{index}}</button>
           </div>
         </section>
@@ -143,6 +169,7 @@ store.changeScene = changeScene
 section{
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 5px;
   margin-top: 10px;
 }

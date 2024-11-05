@@ -18,6 +18,7 @@ const fetchWords = async() => {
   try {
     const response = await fetch(import.meta.env.BASE_URL + 'data/wordlist.json');
     store.wholeData = await response.json();
+    store.scenes = store.wholeData.scenes
     store.wordList = store.wholeData.data[0]
     store.originalData = store.wholeData
   } catch (error) {
@@ -27,9 +28,11 @@ const fetchWords = async() => {
 
 onMounted(() => {
   store.device = 0
+  store.currentScene = 0
   store.wordScene = 0
   if(cachedData){
     store.wholeData = JSON.parse(cachedData)
+    store.scenes = store.wholeData.scenes
     store.wordList = store.wholeData.data[0]
   }else{
     fetchWords()

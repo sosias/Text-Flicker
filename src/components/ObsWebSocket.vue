@@ -4,11 +4,6 @@ import { onMounted } from 'vue';
 
 const store = useUiStore()
 
-const changeScene = (sceneIndex) => {
-  store.wordIndex = 0
-  store.wordScene = sceneIndex
-}
-
 const uuidv4 = () => {
  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
     (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
@@ -55,7 +50,7 @@ const initWebsocketConnection = async() => {
       sceneName = data.d.responseData.scenes.map((item)=>{return item.sceneName})
     } 
     else if(data.op == 5 && data.d.eventType == "CurrentProgramSceneChanged"){
-      changeScene(sceneName.indexOf(data.d.eventData.sceneName))
+      store.changeScene(sceneName.indexOf(data.d.eventData.sceneName))
     }
   }
 
