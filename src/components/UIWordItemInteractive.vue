@@ -17,11 +17,11 @@ defineProps({
 <template>
   <div class="row">
     <span class="circle" :class="{ 'c-on': on }"></span>
-    <input :key=index v-if="!Array.isArray(store.wordList[store.scene].data[index].text)" type="text" v-model=store.wordList[store.scene].data[index].text />
+    <input :key=index v-if="!Array.isArray(store.wordList[store.wordScene].data[index].text)" type="text" v-model=store.wordList[store.wordScene].data[index].text />
     <div v-else>
-      <input :key="index+'-'+indexSub" v-for="(a,indexSub) in store.wordList[store.scene].data[index].text" type="text" v-model=store.wordList[store.scene].data[index].text[indexSub] />
+      <input :key="index+'-'+indexSub" v-for="(a,indexSub) in store.wordList[store.wordScene].data[index].text" type="text" v-model=store.wordList[store.wordScene].data[index].text[indexSub] />
     </div>
-    <input class="staying" type="text" v-model=store.wordList[store.scene].data[index].staying />
+    <input class="staying" type="text" v-model=store.wordList[store.wordScene].data[index].staying />
   </div>
 </template>
 

@@ -46,7 +46,7 @@ const changeScene = (sceneIndex) => {
   store.clear()
   videoLoop(false)
   store.currentLoopType = LoopType.WORDLIST
-  store.scene = sceneIndex
+  store.wordScene = sceneIndex
   store.wordIndex = 0
   store.drawOnce()
 }
@@ -96,7 +96,10 @@ store.changeScene = changeScene
         </section>
         <section>
           <div v-for="(scene, index) in store.wordList" :key="index">
-            <button class="button_ctrl" :disabled="index==store.scene && store.currentLoopType==LoopType.WORDLIST" v-on:click="changeScene(index)" :index=index>{{index}}</button>
+            <button class="button_ctrl" 
+              :disabled="index==store.wordScene && store.currentLoopType==LoopType.WORDLIST"
+              v-on:click="changeScene(index)" 
+              :index=index>{{index}}</button>
           </div>
         </section>
         <section>

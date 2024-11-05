@@ -11,7 +11,7 @@ const sketch = (function() {
     if (lastTimeIncremented + millisecondStep < Date.now()) {
       lastTimeIncremented = Date.now()
       store.wordIndex++
-      if (store.wordIndex >= Object.keys(store.wordList[store.scene].data).length) {
+      if (store.wordIndex >= Object.keys(store.wordList[store.wordScene].data).length) {
         store.wordIndex = 0
         setLoopStatus(false)
         clear()
@@ -84,7 +84,7 @@ const sketch = (function() {
 
   const init = (node) => {
     store = useUiStore()
-    store.scene = 0
+    store.wordScene = 0
     store.wordIndex = 0
     lastTimeIncremented = Date.now()
 
@@ -108,9 +108,9 @@ const sketch = (function() {
       if(store.wordList){
         draw()
 
-        let stepMillisecondsMod = store.wordList[store.scene].data[store.wordIndex].staying == ''
+        let stepMillisecondsMod = store.wordList[store.wordScene].data[store.wordIndex].staying == ''
         ? store.stepMilliseconds
-        : store.stepMilliseconds * store.wordList[store.scene].data[store.wordIndex].staying
+        : store.stepMilliseconds * store.wordList[store.wordScene].data[store.wordIndex].staying
         incrementIndexIfTime(stepMillisecondsMod)
       }
 
@@ -124,17 +124,17 @@ const sketch = (function() {
     // context.clearRect(0, 0, context.canvas.width, context.canvas.height)
     context.beginPath()
     context.fillStyle = '#0002'
-    const multiWord = Array.isArray(store.wordList[store.scene].data[store.wordIndex].text)
+    const multiWord = Array.isArray(store.wordList[store.wordScene].data[store.wordIndex].text)
     context.rect(0, 0, context.canvas.width, context.canvas.height*(multiWord ? 1 : 2/3))
     context.fill()
 
-    const color = store.wordList[store.scene].data[store.wordIndex].color ?? 'white'
+    const color = store.wordList[store.wordScene].data[store.wordIndex].color ?? 'white'
     if(store.blur){
       context.filter = 'drop-shadow(0 0 50px #fff)';
-      drawWordsPolymorph(store.wordList[store.scene].data[store.wordIndex].text, context.canvas.clientWidth / 2, context.canvas.clientHeight / 2, color, fitFontSize, store.fittedText)
+      drawWordsPolymorph(store.wordList[store.wordScene].data[store.wordIndex].text, context.canvas.clientWidth / 2, context.canvas.clientHeight / 2, color, fitFontSize, store.fittedText)
       context.filter = 'blur(0px)';
     }
-    drawWordsPolymorph(store.wordList[store.scene].data[store.wordIndex].text, context.canvas.clientWidth / 2, context.canvas.clientHeight / 2, color, fitFontSize, store.fittedText)
+    drawWordsPolymorph(store.wordList[store.wordScene].data[store.wordIndex].text, context.canvas.clientWidth / 2, context.canvas.clientHeight / 2, color, fitFontSize, store.fittedText)
   }
 
   const windowResized = (event) => {

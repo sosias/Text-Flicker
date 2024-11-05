@@ -6,9 +6,9 @@ const store = useUiStore()
 let firstClick = true
 
 const nextAndPlay = () => {
-  if(!store.isPlaying && store.scene < store.wordList.length - 1){
+  if(!store.isPlaying && store.wordScene < store.wordList.length - 1){
     if(!firstClick){
-      store.changeScene(Number(store.scene) + 1)
+      store.changeScene(Number(store.wordScene) + 1)
     }
     firstClick = false
     store.setWordlistLoopStatus(true)
@@ -19,7 +19,7 @@ const nextAndPlay = () => {
 
 <template>
     <div class="hud" v-on:click="nextAndPlay()">
-      <div v-for="index in (store.scene!=undefined? Number(store.scene) + 1 : 0)" :key="index">
+      <div v-for="index in (store.wordScene!=undefined? Number(store.wordScene) + 1 : 0)" :key="index">
         <div class="hud__circle" :index=index></div>
       </div>
     </div>

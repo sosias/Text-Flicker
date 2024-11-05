@@ -27,7 +27,7 @@ const fetchWords = async() => {
 
 onMounted(() => {
   store.device = 0
-  store.scene = 0
+  store.wordScene = 0
   if(cachedData){
     store.wholeData = JSON.parse(cachedData)
     store.wordList = store.wholeData.data[0]

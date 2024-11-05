@@ -6,7 +6,7 @@ const store = useUiStore()
 
 const changeScene = (sceneIndex) => {
   store.wordIndex = 0
-  store.scene = sceneIndex
+  store.wordScene = sceneIndex
 }
 
 const uuidv4 = () => {
