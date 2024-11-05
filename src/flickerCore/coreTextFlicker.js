@@ -59,8 +59,10 @@ const sketch = (function() {
   const drawWordsPolymorph = (text, x, y, color, fontsize, fitted=false) => {
     if(Array.isArray(text)){
       context.font = `${fontsize}px 'din-bold'`;
+      let fontHeightSize = context.measureText(text).actualBoundingBoxAscent
+      let centeredY = y - fontHeightSize
       text.forEach((element,index) => {
-        drawWord(element, x, y + (context.measureText(text).actualBoundingBoxAscent * 2 * index), color, fontsize, fitted)
+        drawWord(element, x, centeredY + (fontHeightSize * 2 * index), color, fontsize, fitted)
       });
     }else{
       drawWord(text, x, y, color, fontsize, fitted)
