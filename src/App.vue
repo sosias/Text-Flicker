@@ -73,7 +73,7 @@ request.onupgradeneeded = (event) => {
 </script>
 
 <template>
-  <HintsHud />
+  <!-- <HintsHud /> -->
   <VideoScene />
   <EffectCanvas v-if="store.calibration" />
   <div id="canvas" ref="canvasOutlet" v-on:click="store.isMiniUIVisible=!store.isMiniUIVisible"></div>
