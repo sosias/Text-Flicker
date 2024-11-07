@@ -44,9 +44,9 @@ const updateBlurCheckbox = () => {
   updateCanvas()
 }
 
-const updateCalibrationCheckbox = () => {
-  store.calibration = !store.calibration
-  if(store.calibration){
+const updateFxOnCheckbox = () => {
+  store.fx_on = !store.fx_on
+  if(store.fx_on){
     store.fx_sequencePlaying = true
   }
   //updateCanvas()
@@ -190,8 +190,8 @@ const saveVideoToDBEntry = (idEntry, data) => {
               <input id="blur" v-model="store.blur" v-on:click="updateBlurCheckbox()" type="checkbox" />
             </fieldset>
             <fieldset class="check-btn">
-              <label for="calibration">Init</label>
-              <input id="calibration" v-model="store.calibration" v-on:click="updateCalibrationCheckbox()" type="checkbox" />
+              <label for="fx_on">Init</label>
+              <input id="fx_on" v-model="store.fx_on" v-on:click="updateFxOnCheckbox()" type="checkbox" />
             </fieldset> -->
             <fieldset class="check-btn">
               <label for="wordListShow">List</label>

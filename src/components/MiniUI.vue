@@ -96,7 +96,7 @@ const changeSceneEffect = (effectType) => {
   wordsLoop(false)
   store.clear()
   // store.currentLoopType = LoopType.EFFECT
-  store.calibration = true
+  store.fx_on = true
   store.fx_sequencePlaying = false
   store.fx_divergence = 0.0
 }
@@ -104,7 +104,7 @@ const changeSceneEffect = (effectType) => {
 const resetAll = () => {
   wordsLoop(false)
   store.clear()
-  store.calibration = false
+  store.fx_on = false
   store.fx_sequencePlaying = false
 }
 

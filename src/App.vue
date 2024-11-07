@@ -42,7 +42,7 @@ onMounted(() => {
   store.fittedText = false
   store.blur = false
   store.motionBlur = false
-  store.calibration = false
+  store.fx_on = false
   store.wordListShow = false
   store.fx_divergence = 0.0
   store.fx_sequencePlaying = false
@@ -75,7 +75,7 @@ request.onupgradeneeded = (event) => {
 <template>
   <!-- <HintsHud /> -->
   <VideoScene />
-  <EffectCanvas v-if="store.calibration" />
+  <EffectCanvas v-if="store.fx_on" />
   <div id="canvas" ref="canvasOutlet" v-on:click="store.isMiniUIVisible=!store.isMiniUIVisible"></div>
   <MiniUI />
 </template>
